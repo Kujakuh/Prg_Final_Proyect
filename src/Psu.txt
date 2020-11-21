@@ -1,0 +1,21 @@
+main
+{
+	settingsList[3] = {0,0,0} //simbol1,simbol2,1r2players
+
+	loop{
+		stage = printmenu()
+
+		case stage = 1 
+			instructions()
+
+		case stage = 2
+			settingsList = settings() //array return
+
+		case stage = 3
+			do {
+			stage = gameloop(settingsList[0],settingsList[1],settingsList[2])
+			} while(stage = 3)
+
+		default 
+			stage = 0
+}
