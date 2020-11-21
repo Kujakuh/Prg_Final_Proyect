@@ -18,4 +18,22 @@ main
 
 		default 
 			stage = 0
+	}
 }
+
+
+printmenu
+{
+	int stage_return=0;
+	[print del menu]
+
+	off_writing()
+
+	do {
+		if(there´s an int in the scanner)
+		stage_return = scanner
+	} while(stage_return =! (1, 2, 3))
+
+	on_writing()
+}
+
