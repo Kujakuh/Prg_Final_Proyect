@@ -1,3 +1,5 @@
+Scanner declaration
+
 main
 {
 	settingsList[3] = {0,0,0} //simbol1,simbol2,1r2players
@@ -24,16 +26,21 @@ main
 
 printmenu
 {
+	Flush
+
 	int stage_return=0;
 	[print del menu]
 
-	off_writing()
-
 	do {
+		
 		if(there´s an int in the scanner)
-		stage_return = scanner
+			stage_return = scanner
+
+		if(stage_return =! (1, 2, 3))
+			print(Invalid input, try again)
+
 	} while(stage_return =! (1, 2, 3))
 
-	on_writing()
+	return stage_return
 }
 
