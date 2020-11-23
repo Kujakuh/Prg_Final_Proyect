@@ -13,19 +13,6 @@ public class TicTacToe {
     public static void main(String[] args) {
         // Para hacer el menú
         menu();
-        /*
-         * Scanner baia = new Scanner(System.in); boolean exit = false; int option;
-         * while (!exit){ System.out.println("Choose an option:" +'\n'+
-         * "1 = Instructions"+ '\n'+ "2 = Settings"+'\n'+ "3 = Play"+'\n'+ "4 = Exit");
-         * option = baia.nextInt(); switch(option){ case 1:
-         * System.out.println("Instructions"); break; case 2:
-         * System.out.println("Settings"); break; case 3: System.out.println("Play");
-         * break; case 4: exit = true; break; default:
-         * System.out.println("You can only choose a number from 1 to 4"); }
-         * 
-         * }
-         */
-
     }
 
     public static int menu() {
@@ -36,7 +23,6 @@ public class TicTacToe {
             System.out.flush();
             System.out.println("Choose an option:" + '\n' + "1 = Instructions" + '\n' + "2 = Settings" + '\n'
                     + "3 = Play" + '\n' + "4 = Exit");
-            //option = menu.nextInt();
             
             if(menu.hasNextInt()) option = menu.nextInt(); else option = 0;
              
@@ -48,7 +34,7 @@ public class TicTacToe {
                 } catch (InterruptedException e) {e.printStackTrace();}
             }
         } while(option != 1 && option !=2 && option !=3 && option !=4);
-
+        menu.close();
         return option;
     }
 }
