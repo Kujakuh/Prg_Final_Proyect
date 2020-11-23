@@ -30,25 +30,26 @@ public class TicTacToe {
 
     public static int menu() {
         Scanner menu = new Scanner(System.in);
-        int option = 0;
+        int option;
         do {
             System.out.print("\033[H\033[2J");
             System.out.flush();
             System.out.println("Choose an option:" + '\n' + "1 = Instructions" + '\n' + "2 = Settings" + '\n'
                     + "3 = Play" + '\n' + "4 = Exit");
-            option = menu.nextInt();
-            /*
-             * if(menu.hasNextInt()){ option = menu.nextInt(); } else
-             * {System.out.println("Try again, invalid input");}
-             */
+            //option = menu.nextInt();
+            
+            if(menu.hasNextInt()) option = menu.nextInt(); else option = 0;
+             
             if (option != 1 && option != 2 && option != 3 && option != 4) {
+                menu.nextLine();
                 System.out.println("Try again, invalid input");
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {e.printStackTrace();}
             }
-        }while(option != 1&&option !=2&&option !=3&&option !=4);   
-return option;
+        } while(option != 1 && option !=2 && option !=3 && option !=4);
+
+        return option;
     }
 }
 
