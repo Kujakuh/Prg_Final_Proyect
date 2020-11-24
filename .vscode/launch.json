@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - TicTacToe",
+            "request": "launch",
+            "mainClass": "TicTacToe",
+            "projectName": "TTT_174048cc"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"
