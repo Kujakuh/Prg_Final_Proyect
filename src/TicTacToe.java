@@ -58,6 +58,26 @@ public class TicTacToe {
         menu.close();
         return option;
     }
+    public static int Instructions() {
+        int option = 0;
+        if ( option == 1){
+            char[][] ExampleBoard = {
+                {'┌', '─', '─', '─', '┬', '─', '─', '─', '┬', '─', '─', '─', '┐'},
+                {'|', ' ', '1', ' ', '|', ' ', '2', ' ', '|', ' ', '3', ' ', '|'},
+                {'├', '─', '─', '─', '┼', '─', '─', '─', '┼', '─', '─', '─', '┤'},
+                {'│', ' ', '4', ' ', '|', ' ', '5', ' ', '|', ' ', '6', ' ', '|'},
+                {'├', '─', '─', '─', '┼', '─', '─', '─', '┼', '─', '─', '─', '┤'},
+                {'│', ' ', '7', ' ', '|', ' ', '8', ' ', '|', ' ', '9', ' ', '|'},
+                {'└', '─', '─', '─', '┴', '─', '─', '─', '┴', '─', '─', '─', '┘'},};
+            System.out.println("The game is played on a grid that's 3x3 squares.");
+            System.out.println(ExampleBoard);
+            System.out.println("Players take turns putting their marks in empty squares."+ '\n'+
+             "The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner." +'\n'+
+             "When all 9 squares are full, the game is over."+'\n');
+             System.out.println("To play you just have to say in which square you want to place your mark when your turn comes"); 
+        }
+        return option;
+    }
 }
 
 
