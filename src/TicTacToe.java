@@ -8,28 +8,30 @@ import java.lang.Thread;
 
 public class TicTacToe {
 
-    Scanner input = new Scanner(System.in);
-
     public static void main(String[] args) {
-        // Para hacer el menú
         menu();
     }
 
+    // Terminal Cleaning
     public static void cls() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
+    // Simplified sleep method 
     public static void sleep(int i) {
         try {
             Thread.sleep(i);
         } catch (InterruptedException e) {e.printStackTrace();}
     }
 
+    // Menu display function, that will be returning the selected stage 
     public static int menu() {
+
         Scanner menu = new Scanner(System.in);
         int option;
         do {
+            // Terminal clear
             cls();
             
             System.out.println(Data.ANSI_RED + "Choose an option:"+ Data.ANSI_RESET + 
@@ -38,8 +40,10 @@ public class TicTacToe {
                                                      '\n' + "3 = Play" + 
                                                      '\n' + "4 = Exit");
             
-            if(menu.hasNextInt()) option = menu.nextInt(); else option = 0;
+            // Avoid data types errors, forbidding the user to give us a non numeric input
+            if(menu.hasNextInt()) option = menu.nextInt(); else option = 0; 
              
+            // Check user input to only use the aviable options
             if (option != 1 && option != 2 && option != 3 && option != 4) {
                 
                 menu.nextLine();
@@ -47,9 +51,10 @@ public class TicTacToe {
                 sleep(2000);
                 
             }
-
+            // Check user input to only use the aviable options
         } while(option != 1 && option !=2 && option !=3 && option !=4);
         
+        // Scanner end
         menu.close();
         return option;
     }
