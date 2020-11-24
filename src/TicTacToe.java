@@ -32,7 +32,8 @@ public class TicTacToe {
         do {
             cls();
             
-            System.out.println("Choose an option:" + '\n' + "1 = Instructions" +
+            System.out.println(Data.ANSI_RED + "Choose an option:"+ Data.ANSI_RESET + 
+                                                     '\n' + "1 = Instructions" +
                                                      '\n' + "2 = Settings" + 
                                                      '\n' + "3 = Play" + 
                                                      '\n' + "4 = Exit");
