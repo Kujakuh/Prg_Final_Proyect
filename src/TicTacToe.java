@@ -12,6 +12,8 @@ public class TicTacToe {
 
     public static void main(String[] args) {
 
+        String settings[] = new String[5];
+
         while(true){
 
             int stage = menu();
@@ -19,6 +21,8 @@ public class TicTacToe {
             switch(stage){
             
                 case 1: instructions(); break;
+
+                case 2: settings = set_settings(); break;
 
                 case 4: System.exit(-1);
 
@@ -99,18 +103,22 @@ public class TicTacToe {
         do{
         
             cls();
+            
+            System.out.println("---------------------------------------------------------------");
+            System.out.println("|                     INSTRUCTIONS                            |");
+            System.out.println("---------------------------------------------------------------\n\n");
 
-            System.out.println("The game is played on a grid that's 3x3 squares.");
+            System.out.println("The game is played on a grid that's 3x3 squares.\n");
 
             print_matrix(inst_board);
 
-            System.out.println("Players take turns putting their marks in empty squares."+ '\n'+
+            System.out.println("\nPlayers take turns putting their marks in empty squares."+ '\n'+
                                "The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner." +'\n'+
                                "When all 9 squares are full, the game is over."+'\n');
 
             System.out.println("To play you just have to say in which square you want to place your mark when your turn comes"); 
             
-            System.out.println("Press 1 to go back to the menu");
+            System.out.println("\nPress 1 to go back to the menu");
 
             input.nextLine();
 
@@ -124,4 +132,19 @@ public class TicTacToe {
         } while(end_check != 1);
 
     }
+
+    public static String[] set_settings(){
+
+        String stg[] = new String[5];
+
+        cls();
+
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("|                       SETTINGS                              |");
+        System.out.println("---------------------------------------------------------------\n\n");
+        sleep(1000);
+
+        return stg;
+    }
+
 }

@@ -9,6 +9,13 @@
             "name": "CodeLens (Launch) - TicTacToe",
             "request": "launch",
             "mainClass": "TicTacToe",
+            "projectName": "Prg_Final_Proyect_31d8e2b0"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - TicTacToe",
+            "request": "launch",
+            "mainClass": "TicTacToe",
             "projectName": "TTT_174048cc"
         },
         {
