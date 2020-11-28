@@ -60,7 +60,7 @@ public class TicTacToe {
             cls();
             
             System.out.println(Data.ANSI_RED + "Choose an option:"+ Data.ANSI_RESET + '\n' + "1 = Instructions" 
-            +'\n' + "2 = Settings" + '\n' + "3 = Play" + '\n' + "4 = Exit");
+            +'\n' + "2 = Settings" + '\n' + "3 = Play" + '\n' + "4 = Exit ");
             
             // Avoid data types errors, forbidding the user to give us a non numeric input
             if(input.hasNextInt()) option = input.nextInt(); else option = 0; 
