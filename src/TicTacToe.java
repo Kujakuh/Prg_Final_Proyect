@@ -93,33 +93,41 @@ public class TicTacToe {
         int end_check = 0;
 
         char[][] inst_board = {
-                {'┌', '─', '─', '─', '┬', '─', '─', '─', '┬', '─', '─', '─', '┐'},
-                {'|', ' ', '1', ' ', '|', ' ', '2', ' ', '|', ' ', '3', ' ', '|'},
-                {'├', '─', '─', '─', '┼', '─', '─', '─', '┼', '─', '─', '─', '┤'},
-                {'│', ' ', '4', ' ', '|', ' ', '5', ' ', '|', ' ', '6', ' ', '|'},
-                {'├', '─', '─', '─', '┼', '─', '─', '─', '┼', '─', '─', '─', '┤'},
-                {'│', ' ', '7', ' ', '|', ' ', '8', ' ', '|', ' ', '9', ' ', '|'},
-                {'└', '─', '─', '─', '┴', '─', '─', '─', '┴', '─', '─', '─', '┘'},};
+                {'╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
+                {'║', ' ', '1', ' ', '║', ' ', '2', ' ', '║', ' ', '3', ' ', '║'},
+                {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'}, //cambiar esto
+                {'║', ' ', '4', ' ', '║', ' ', '5', ' ', '║', ' ', '6', ' ', '║'},
+                {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
+                {'║', ' ', '7', ' ', '║', ' ', '8', ' ', '║', ' ', '9', ' ', '║'},
+                {'╚', '═', '═', '═', '╩', '═', '═', '═', '╩', '═', '═', '═', '╝'},};
+        char[][] inst_board1 = {
+                    {'╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
+                    {'║', ' ', 'X', ' ', '║', ' ', ' ', ' ', '║', ' ', ' ', ' ', '║'},
+                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
+                    {'║', ' ', 'O', ' ', '║', ' ', 'X', ' ', '║', ' ', ' ', ' ', '║'},
+                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
+                    {'║', ' ', 'O', ' ', '║', ' ', 'O', ' ', '║', ' ', 'X', ' ', '║'},
+                    {'╚', '═', '═', '═', '╩', '═', '═', '═', '╩', '═', '═', '═', '╝'},};
 
-        do{
+       do{
         
             cls();
-            
-            System.out.println("┌─────────────────────────────────────────────────────────────┐");
-            System.out.println("|                       INSTRUCTIONS                          |");
-            System.out.println("└─────────────────────────────────────────────────────────────┘\n\n");
-
-            System.out.println("The game is played on a grid that's 3x3 squares.\n");
+            System.out.println("╔═════════════════════════════════════════════════════════════╗");
+            System.out.println("║                       INSTRUCTIONS                          ║");
+            System.out.println("╚═════════════════════════════════════════════════════════════╝\n\n");
+            System.out.println("The game is played on a grid that's 3x3 squares."+ '\n');
 
             print_matrix(inst_board);
 
-            System.out.println("\nPlayers take turns putting their marks in empty squares."+ '\n'+
+            System.out.println('\n'+"Players take turns putting their marks in empty squares."+ '\n'+
                                "The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner." +'\n'+
                                "When all 9 squares are full, the game is over."+'\n');
 
-            System.out.println("To play you just have to say in which square you want to place your mark when your turn comes"); 
+            System.out.println("To play you just have to say in which square you want to place your mark when your turn comes"+'\n'); 
+            System.out.println("This is an example of X's winning the game"+'\n');
+            print_matrix(inst_board1);
             
-            System.out.print("\nType 1 to go back to the menu: ");
+            System.out.print('\n'+"Type 1 to go back to the menu: ");
 
             input.nextLine();
 
@@ -134,6 +142,7 @@ public class TicTacToe {
 
     }
 
+
     public static String[] set_settings(String rn_stg[]){
 
         String stg[] = new String[4];
@@ -144,9 +153,9 @@ public class TicTacToe {
 
             cls();
 
-            System.out.println("┌─────────────────────────────────────────────────────────────┐");
-            System.out.println("|                         SETTINGS                            |");
-            System.out.println("└─────────────────────────────────────────────────────────────┘\n\n");
+            System.out.println("╔═════════════════════════════════════════════════════════════╗");
+            System.out.println("║                         SETTINGS                            ║");
+            System.out.println("╚═════════════════════════════════════════════════════════════╝\n\n");
 
             System.out.println("Actual settings: \n");
             System.out.println("       - Player 1 tag: " + rn_stg[0]);
