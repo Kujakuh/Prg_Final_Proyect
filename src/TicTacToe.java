@@ -59,11 +59,8 @@ public class TicTacToe {
             // Terminal clear
             cls();
             
-            System.out.println(Data.ANSI_RED + "Choose an option:"+ Data.ANSI_RESET + 
-                                                     '\n' + "1 = Instructions" +
-                                                     '\n' + "2 = Settings" + 
-                                                     '\n' + "3 = Play" + 
-                                                     '\n' + "4 = Exit");
+            System.out.println(Data.ANSI_RED + "Choose an option:"+ Data.ANSI_RESET + '\n' + "1 = Instructions" 
+            +'\n' + "2 = Settings" + '\n' + "3 = Play" + '\n' + "4 = Exit");
             
             // Avoid data types errors, forbidding the user to give us a non numeric input
             if(input.hasNextInt()) option = input.nextInt(); else option = 0; 
@@ -88,13 +85,21 @@ public class TicTacToe {
         int end_check = 0;
 
         char[][] inst_board = {
-                {'┌', '─', '─', '─', '┬', '─', '─', '─', '┬', '─', '─', '─', '┐'},
-                {'|', ' ', '1', ' ', '|', ' ', '2', ' ', '|', ' ', '3', ' ', '|'},
-                {'├', '─', '─', '─', '┼', '─', '─', '─', '┼', '─', '─', '─', '┤'},
-                {'│', ' ', '4', ' ', '|', ' ', '5', ' ', '|', ' ', '6', ' ', '|'},
-                {'├', '─', '─', '─', '┼', '─', '─', '─', '┼', '─', '─', '─', '┤'},
-                {'│', ' ', '7', ' ', '|', ' ', '8', ' ', '|', ' ', '9', ' ', '|'},
-                {'└', '─', '─', '─', '┴', '─', '─', '─', '┴', '─', '─', '─', '┘'},};
+                {'╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
+                {'║', ' ', '1', ' ', '║', ' ', '2', ' ', '║', ' ', '3', ' ', '║'},
+                {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
+                {'║', ' ', '4', ' ', '║', ' ', '5', ' ', '║', ' ', '6', ' ', '║'},
+                {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
+                {'║', ' ', '7', ' ', '║', ' ', '8', ' ', '║', ' ', '9', ' ', '║'},
+                {'╚', '═', '═', '═', '╩', '═', '═', '═', '╩', '═', '═', '═', '╝'},};
+        char[][] inst_board1 = {
+                    {'╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
+                    {'║', ' ', 'X', ' ', '║', ' ', ' ', ' ', '║', ' ', ' ', ' ', '║'},
+                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
+                    {'║', ' ', 'O', ' ', '║', ' ', 'X', ' ', '║', ' ', ' ', ' ', '║'},
+                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
+                    {'║', ' ', 'O', ' ', '║', ' ', 'O', ' ', '║', ' ', 'X', ' ', '║'},
+                    {'╚', '═', '═', '═', '╩', '═', '═', '═', '╩', '═', '═', '═', '╝'},};
 
         do{
         
@@ -108,7 +113,9 @@ public class TicTacToe {
                                "The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner." +'\n'+
                                "When all 9 squares are full, the game is over."+'\n');
 
-            System.out.println("To play you just have to say in which square you want to place your mark when your turn comes"); 
+            System.out.println("To play you just have to say in which square you want to place your mark when your turn comes"+'\n'); 
+            System.out.println("This is an example of X's winning the game"+'\n');
+            print_matrix(inst_board1);
             
             System.out.println("Press 1 to go back to the menu");
 
@@ -124,4 +131,12 @@ public class TicTacToe {
         } while(end_check != 1);
 
     }
+    /*
+    public static void settings(){
+        int end_check = 0;
+        do{
+
+        }
+
+    }*/
 }
