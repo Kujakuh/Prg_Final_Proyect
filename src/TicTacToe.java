@@ -154,7 +154,7 @@ public class TicTacToe {
             System.out.println("       - Player 2 tag: " + rn_stg[2]);
             System.out.println("       - Player 2 chip: " + rn_stg[3] + "\n\n");
             
-            System.out.print("Choose what player settings you want to change, Player 1, Player 2 or both (enter 0 to keep default): ");
+            System.out.print("Choose what player settings you want to change, Player 1, Player 2 or both (enter 0 to keep the actual settings): ");
 
             input.nextLine();
             player_selec = input.nextLine().toLowerCase();
