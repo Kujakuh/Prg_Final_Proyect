@@ -66,7 +66,7 @@ public class TicTacToe {
 
     public static void instructions() {
 
-        int end_check = 0;
+        int end_check = 1;
 
         char[][] inst_board = {
                     {'╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
@@ -104,19 +104,18 @@ public class TicTacToe {
             System.out.println("This is an example of X's winning the game"+'\n');
             print_matrix(inst_board1);
             
-            System.out.print('\n'+"Type 1 to go back to the menu: ");
+            System.out.print('\n'+"Type 0 to go back to the menu: ");
 
             input.nextLine();
 
             if(input.hasNextInt()) {
                 
                 end_check = input.nextInt();
-                if(end_check != 1) { System.out.println("Invalid input, try again."); sleep(1250);}
+                if(end_check != 0) { System.out.println("Invalid input, try again."); sleep(1250);}
 
             } else { System.out.println("Invalid input, try again."); sleep(1250);}
 
-        } while(end_check != 1);
-
+        } while(end_check != 0);
     }
 
 
@@ -271,7 +270,7 @@ public class TicTacToe {
             }
             
         }
-        
+
         return null;
     }
 
@@ -318,5 +317,4 @@ public class TicTacToe {
             Thread.sleep(i);
         } catch (InterruptedException e) {e.printStackTrace();}
     }
-
 }
