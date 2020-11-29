@@ -32,30 +32,6 @@ public class TicTacToe {
         }
     }
 
-    // Terminal Cleaning
-    public static void cls() {
-        //System.out.print("\033[H\033[2J");
-        //System.out.flush();
-        for(int i=0; i < 50;i++) System.out.println();
-    }
-
-    // Simplified sleep method 
-    public static void sleep(int i) {
-        try {
-            Thread.sleep(i);
-        } catch (InterruptedException e) {e.printStackTrace();}
-    }
-
-    public static void print_matrix(char[][] Board){
-        
-        for(char[] row : Board){
-            for(char c : row){
-                System.out.print(c);
-            }
-            System.out.println();
-        }
-    }
-
     // Menu display function, that will be returning the selected stage 
     public static int menu() {
 
@@ -254,8 +230,7 @@ public class TicTacToe {
             switch(chip){
 
                 case "X","0","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T",
-                "U","V","W","Y","Z","+","*","-","@","1" -> 
-                {stg = 1; break;}
+                "U","V","W","Y","Z","+","*","-","@","1" -> {stg = 1; break;}
                 default -> {stg = 0; System.out.println("That is not a valid chip, please try again."); break;}
             }
 
@@ -318,6 +293,30 @@ public class TicTacToe {
         String temp[] = new String[list.length];
         for(int i = 0; i < temp.length - 1; i++) temp[i] = null;
         return temp;
+    }
+
+    public static void print_matrix(char[][] Board){
+        
+        for(char[] row : Board){
+            for(char c : row){
+                System.out.print(c);
+            }
+            System.out.println();
+        }
+    }
+
+    // Terminal Cleaning
+    public static void cls() {
+        //System.out.print("\033[H\033[2J");
+        //System.out.flush();
+        for(int i=0; i < 50;i++) System.out.println();
+    }
+
+    // Simplified sleep method 
+    public static void sleep(int i) {
+        try {
+            Thread.sleep(i);
+        } catch (InterruptedException e) {e.printStackTrace();}
     }
 
 }
