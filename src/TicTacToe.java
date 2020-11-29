@@ -93,13 +93,14 @@ public class TicTacToe {
         int end_check = 0;
 
         char[][] inst_board = {
-                {'╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
-                {'║', ' ', '1', ' ', '║', ' ', '2', ' ', '║', ' ', '3', ' ', '║'},
-                {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'}, //cambiar esto
-                {'║', ' ', '4', ' ', '║', ' ', '5', ' ', '║', ' ', '6', ' ', '║'},
-                {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
-                {'║', ' ', '7', ' ', '║', ' ', '8', ' ', '║', ' ', '9', ' ', '║'},
-                {'╚', '═', '═', '═', '╩', '═', '═', '═', '╩', '═', '═', '═', '╝'},};
+                    {'╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
+                    {'║', ' ', '1', ' ', '║', ' ', '2', ' ', '║', ' ', '3', ' ', '║'},
+                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'}, //cambiar esto
+                    {'║', ' ', '4', ' ', '║', ' ', '5', ' ', '║', ' ', '6', ' ', '║'},
+                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
+                    {'║', ' ', '7', ' ', '║', ' ', '8', ' ', '║', ' ', '9', ' ', '║'},
+                    {'╚', '═', '═', '═', '╩', '═', '═', '═', '╩', '═', '═', '═', '╝'},};
+                    
         char[][] inst_board1 = {
                     {'╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
                     {'║', ' ', 'X', ' ', '║', ' ', ' ', ' ', '║', ' ', ' ', ' ', '║'},
@@ -228,7 +229,13 @@ public class TicTacToe {
 
         System.out.println("How you want to be named as?");
 
-        tag = input.nextLine();
+        do {
+            tag = input.nextLine();
+
+            if(tag.toUpperCase().equals("CPU")) 
+                System.out.println("CPU is a reserved name, please type another name.");
+
+        } while(tag.toUpperCase().equals("CPU"));    
 
         return tag;
     }
@@ -255,6 +262,62 @@ public class TicTacToe {
         } while(stg == 0);
 
         return chip;
+    }
+
+    public static String check_winner(String board[], String p1_chip, String p2_chip) {
+
+        for (int i=0; i< board.length-1; i++){
+    
+            String line = null;
+    
+            switch(i) {
+    
+                case 1 -> {line = board[0] + board[1] + board[2]; break;}
+                case 2 -> {line = board[3] + board[4] + board[5]; break;}
+                case 3 -> {line = board[6] + board[7] + board[8]; break;}
+                case 4 -> {line = board[0] + board[3] + board[6]; break;}
+                case 5 -> {line = board[1] + board[4] + board[7]; break;}
+                case 6 -> {line = board[2] + board[5] + board[8]; break;}
+                case 7 -> {line = board[0] + board[4] + board[8]; break;}
+                case 8 -> {line = board[6] + board[4] + board[2]; break;}
+    
+            }
+    
+            if (line.equals(p1_chip + p1_chip + p1_chip))
+                return p1_chip;
+
+            else if (line.equals(p2_chip + p2_chip + p2_chip))
+                return p2_chip;
+            
+            for (int j=0; j< board.length-1; j++){
+    
+                if (board[j].equals(null)) break;
+                else if (j == board.length -1) return "draw";
+            }
+            
+        }
+        
+        return null;
+    }
+
+    public static void print_game_board(String board[]){
+
+        System.out.println('\n');
+        System.out.println("        ╔═══╦═══╦═══╗");
+        System.out.println("        ║" + board[0] + "║"+ board[1] + "║"+ board[2] + "║");
+        System.out.println("        ╠═══╬═══╬═══╣");
+        System.out.println("        ║" + board[3] + "║"+ board[4] + "║"+ board[5] + "║");
+        System.out.println("        ╠═══╬═══╬═══╣");
+        System.out.println("        ║" + board[6] + "║"+ board[7] + "║"+ board[8] + "║");
+        System.out.println("        ╚═══╩═══╩═══╝");
+        System.out.println('\n');
+    }
+
+    public static String[] populate_null_1d_array(String list[]){
+
+        String temp[] = new String[list.length];
+        for(int i = 0; i < temp.length - 1; i++) temp[i] = null;
+        return temp;
     }
 
 }
