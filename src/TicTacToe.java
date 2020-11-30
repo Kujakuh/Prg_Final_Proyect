@@ -24,6 +24,8 @@ public class TicTacToe {
 
                 case 2: settings = set_settings(settings); break;
 
+                case 3: game(settings[0], settings[1], settings[2], settings[3]); break;
+
                 case 4: System.exit(-1);
 
                 default: break;
@@ -62,7 +64,6 @@ public class TicTacToe {
         
         return option;
     }
-
 
     public static void instructions() {
 
@@ -198,6 +199,24 @@ public class TicTacToe {
         return stg;
     }
 
+    public static int game(String player1_tag, String player1_chip, String player2_tag, String player2_chip){
+
+        int replay = 1;
+        String[] game_board = new String[9];
+    
+        cls();
+        game_board = populate_null_1d_array(game_board);
+//------------------- Testing -----------------------------------------
+        print_game_board(game_board);
+        
+        game_board = place_chip(game_board, player1_tag, player1_chip);
+
+        print_game_board(game_board);
+        sleep(2000);
+//---------------------------------------------------------------------
+        return replay;
+    }
+
     public static String get_tag(){
 
         String tag = new String();
@@ -265,7 +284,7 @@ public class TicTacToe {
             
             for (int j=0; j< board.length-1; j++){
     
-                if (board[j].equals(null)) break;
+                if (board[j].equals(" ")) break;
                 else if (j == board.length -1) return "draw";
             }
             
@@ -274,15 +293,47 @@ public class TicTacToe {
         return null;
     }
 
+    public static String[] place_chip(String rn_board[], String tag, String chip){
+
+        String board[] = rn_board;
+        int stage = 0;
+        int user_input;
+        
+        System.out.print("\nIt´s your turn "+ tag +". Type where you wanna place your token (1-9): ");
+
+        do{
+            
+            if(input.hasNextInt()) {
+                
+                user_input = input.nextInt();
+                
+                switch(user_input){
+
+                    case 1, 2, 3, 4, 5, 6, 7, 8, 9 -> 
+                    {
+                        if(board[user_input-1].equals(" ")) {board[user_input-1] = chip; stage = 1;}
+                        else System.out.println("That position is already taken, please, select another position.");
+                    }
+
+                    default -> System.out.println("Invalid input, try again.");
+                }
+
+            } else { System.out.println("Invalid input, try again.");}
+
+        }while(stage == 0);
+
+        return board;
+    }
+
     public static void print_game_board(String board[]){
 
         System.out.println('\n');
         System.out.println("        ╔═══╦═══╦═══╗");
-        System.out.println("        ║" + board[0] + "║"+ board[1] + "║"+ board[2] + "║");
+        System.out.println("        ║ " + board[0] + " ║ "+ board[1] + " ║ "+ board[2] + " ║");
         System.out.println("        ╠═══╬═══╬═══╣");
-        System.out.println("        ║" + board[3] + "║"+ board[4] + "║"+ board[5] + "║");
+        System.out.println("        ║ " + board[3] + " ║ "+ board[4] + " ║ "+ board[5] + " ║");
         System.out.println("        ╠═══╬═══╬═══╣");
-        System.out.println("        ║" + board[6] + "║"+ board[7] + "║"+ board[8] + "║");
+        System.out.println("        ║ " + board[6] + " ║ "+ board[7] + " ║ "+ board[8] + " ║");
         System.out.println("        ╚═══╩═══╩═══╝");
         System.out.println('\n');
     }
@@ -290,7 +341,7 @@ public class TicTacToe {
     public static String[] populate_null_1d_array(String list[]){
 
         String temp[] = new String[list.length];
-        for(int i = 0; i < temp.length - 1; i++) temp[i] = null;
+        for(int i = 0; i < temp.length; i++) temp[i] = " ";
         return temp;
     }
 
@@ -308,7 +359,7 @@ public class TicTacToe {
     public static void cls() {
         //System.out.print("\033[H\033[2J");
         //System.out.flush();
-        for(int i=0; i < 50;i++) System.out.println();
+        for(int i=0 ; i < 80 ; i++) System.out.println();
     }
 
     // Simplified sleep method 
