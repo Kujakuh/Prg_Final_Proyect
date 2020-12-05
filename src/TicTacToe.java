@@ -4,6 +4,7 @@ This is a simple command prompt based TicTacToe with some advanced settings.
 */
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.lang.Thread;
 
 public class TicTacToe {
@@ -202,14 +203,15 @@ public class TicTacToe {
     public static int game(String player1_tag, String player1_chip, String player2_tag, String player2_chip){
 
         int replay = 1;
-        String[] game_board = new String[9];
+        String[] game_board = {"0","0",player1_chip," ","0"," ",player1_chip,player1_chip," "};
     
         cls();
-        game_board = populate_null_1d_array(game_board);
+        //game_board = populate_null_1d_array(game_board);
+
 //------------------- Testing -----------------------------------------
         print_game_board(game_board);
-        
-        game_board = place_chip(game_board, player1_tag, player1_chip);
+
+        game_board = place_chip(game_board, "CPU", "0", player1_chip);
 
         print_game_board(game_board);
         sleep(2000);
@@ -293,34 +295,54 @@ public class TicTacToe {
         return null;
     }
 
-    public static String[] place_chip(String rn_board[], String tag, String chip){
+    public static String[] place_chip(String rn_board[], String tag, String chip, String enemy_chip){
 
         String board[] = rn_board;
         int stage = 0;
         int user_input;
         
-        System.out.print("\nIt´s your turn "+ tag +". Type where you wanna place your token (1-9): ");
-
-        do{
+        if (tag.equals("CPU")) {
             
-            if(input.hasNextInt()) {
-                
-                user_input = input.nextInt();
-                
-                switch(user_input){
+            user_input = cpu_ai(board, chip, enemy_chip);
 
-                    case 1, 2, 3, 4, 5, 6, 7, 8, 9 -> 
-                    {
-                        if(board[user_input-1].equals(" ")) {board[user_input-1] = chip; stage = 1;}
-                        else System.out.println("That position is already taken, please, select another position.");
+            if (!board[user_input].equals(" ")) {
+                do{
+                    user_input = random_bounded_nums(0, 9);
+                } while(!board[user_input].equals(" "));
+            }
+
+            board[user_input] = chip;
+            user_input++;
+
+            System.out.println("The CPU placed his chip in the following position: " + user_input);
+        } 
+
+        else {
+
+            System.out.print("\nIt´s your turn "+ tag +". Type where you wanna place your token (1-9): ");
+
+            do {
+            
+                if (input.hasNextInt()) {
+                
+                    user_input = input.nextInt();
+                
+                    switch(user_input){
+
+                        case 1, 2, 3, 4, 5, 6, 7, 8, 9 -> 
+                        {
+                            if(board[user_input-1].equals(" ")) {board[user_input-1] = chip; stage = 1;}
+                            else System.out.println("That position is already taken, please, select another position.");
+                        }
+
+                        default -> System.out.println("Invalid input, try again.");
                     }
 
-                    default -> System.out.println("Invalid input, try again.");
-                }
+                } else { System.out.println("Invalid input, try again.");}
 
-            } else { System.out.println("Invalid input, try again.");}
+            } while(stage == 0);
 
-        }while(stage == 0);
+        }
 
         return board;
     }
@@ -355,6 +377,15 @@ public class TicTacToe {
         }
     }
 
+    public static int random_bounded_nums(int a, int b) {
+        return ThreadLocalRandom.current().nextInt(a + 1, b);
+    }
+
+
+    public static boolean check_char(String[] arr, String targetValue) {
+        return Arrays.asList(arr).contains(targetValue);
+    }
+
     // Terminal Cleaning
     public static void cls() {
         //System.out.print("\033[H\033[2J");
@@ -368,4 +399,214 @@ public class TicTacToe {
             Thread.sleep(i);
         } catch (InterruptedException e) {e.printStackTrace();}
     }
+
+    //----------------------------- AI -----------------------------------------------------------------------------------------
+    
+    // https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
+
+    public static int cpu_ai(String rn_board[], String cpu_chip, String enemy_chip){
+
+        int pos[] = cpu_move(one_to_two_dim(rn_board), enemy_chip, "0");
+
+        return pos[0]*3 + pos[1];
+    }
+
+    public static Boolean moves_left(String board[]) 
+    { 
+        return true;
+        //for (int i = 0; i < board.length; i++) 
+         //   if (board[i].equals(" ")) 
+        //        return true; 
+        //return false; 
+    } 
+
+    public static String[][] one_to_two_dim(String a[]){
+
+        String array[][] = new String[3][3];
+
+        for(int i=0; i<3;i++)
+            for(int j=0;j<3;j++)
+                array[i][j] = a[(j*3) + i];
+        
+        return array;
+    }
+
+    public static String[] two_to_one_dim(String a[][]){
+
+        String array[] = new String[9];
+
+        int l = 0;
+        for(int i=0; i<3;i++)
+            for(int j=0;j<3;j++)
+                array[l] = a[i][j];
+                l++;
+        
+        return array;
+    }
+
+    public static int evaluate(String b[][], String player, String cpu) 
+    { 
+        // Checking for Rows for player or cpu victory. 
+        for (int row = 0; row < 3; row++) 
+        { 
+            if (b[row][0].equals(b[row][1]) && 
+               b[row][1].equals(b[row][2])) 
+            { 
+                if (b[row][0].equals(player)) 
+                    return +10; 
+                else if (b[row][0].equals(cpu)) 
+                    return -10; 
+            } 
+        } 
+  
+        // Checking for Columns for player or cpu victory. 
+        for (int col = 0; col < 3; col++) 
+        { 
+            if (b[0][col].equals(b[1][col]) && 
+                b[1][col].equals(b[2][col])) 
+            { 
+                if (b[0][col].equals(player)) 
+                    return +10; 
+  
+                else if (b[0][col].equals(cpu)) 
+                    return -10; 
+            } 
+        } 
+  
+        // Checking for Diagonals for player or cpu victory. 
+        if (b[0][0].equals(b[1][1]) && b[1][1].equals(b[2][2])) 
+        { 
+            if (b[0][0].equals(player)) 
+                return +10; 
+            else if (b[0][0].equals(cpu)) 
+                return -10; 
+        } 
+  
+        if (b[0][2].equals(b[1][1]) && b[1][1].equals(b[2][0])) 
+        { 
+            if (b[0][2].equals(player)) 
+                return +10; 
+            else if (b[0][2].equals(cpu)) 
+                return -10; 
+        } 
+  
+        // Else if none of them have won then return 0 
+        return 0; 
+    } 
+
+    static int minimax(String board[][], int depth, Boolean isMax, String player, String cpu) { 
+        
+        int score = evaluate(board, player, cpu); 
+  
+        // If Maximizer has won the game  
+        // return his/her evaluated score 
+        if (score == 10) 
+        return score; 
+  
+        // If Minimizer has won the game  
+        // return his/her evaluated score 
+        if (score == -10) 
+        return score; 
+        
+        // If there are no more moves and  
+        // no winner then it is a tie 
+        if (moves_left(two_to_one_dim(board)) == false) 
+        return 0; 
+  
+        // If this maximizer's move 
+        if (isMax) 
+        { 
+            int best = -1000; 
+  
+            // Traverse all cells 
+            for (int i = 0; i < 3; i++) 
+            { 
+                for (int j = 0; j < 3; j++) 
+                { 
+                    // Check if cell is empty 
+                    if (board[i][j].equals(" ")){ 
+
+                        // Make the move 
+                        board[i][j] = cpu; 
+  
+                        // Call minimax recursively and choose 
+                        // the maximum value 
+                        best = Math.max(best, minimax(board, depth + 1, !isMax, player, cpu)); 
+  
+                        // Undo the move 
+                        board[i][j] = " "; 
+                    } 
+                } 
+            } 
+
+            return best; 
+        } 
+        else 
+        { 
+            int best = 1000; 
+  
+            // Traverse all cells 
+            for (int i = 0; i < 3; i++){ 
+
+                for (int j = 0; j < 3; j++){ 
+
+                    // Check if cell is empty 
+                    if (board[i][j].equals(" ")){ 
+                        // Make the move 
+                        board[i][j] = player; 
+  
+                        // Call minimax recursively and choose 
+                        // the maximum value 
+                        best = Math.max(best, minimax(board, depth + 1, !isMax, player, cpu)); 
+  
+                        // Undo the move 
+                        board[i][j] = " "; 
+                    } 
+                } 
+            }
+
+            return best; 
+        }
+
+    } 
+
+    static int[] cpu_move(String board[][], String player, String cpu){
+
+        int bestVal = -1000; 
+        int bestMove[] = {-1,-1};
+  
+        // Traverse all cells, evaluate minimax function  
+        // for all empty cells. And return the cell  
+        // with optimal value. 
+        for (int i = 0; i < 3; i++){ 
+
+            for (int j = 0; j < 3; j++){ 
+
+                // Check if cell is empty 
+                if (!board[i][j].equals(player) && !board[i][j].equals(cpu)){ 
+                    // Make the move 
+                    board[i][j] = cpu; 
+  
+                    // Compute evaluation function for this 
+                    // move. 
+                    int moveVal = minimax(board, 0, false, player, cpu); 
+  
+                    // Undo the move 
+                    board[i][j] = " "; 
+  
+                    // If the value of the current move is 
+                    // more than the best value, then update 
+                    // best
+                    if (moveVal > bestVal) 
+                    { 
+                        bestMove[0] = i; 
+                        bestMove[1] = j; 
+                        bestVal = moveVal; 
+                    } 
+                } 
+            } 
+        } 
+
+        return bestMove; 
+    } 
 }

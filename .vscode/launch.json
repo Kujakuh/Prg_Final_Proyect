@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - correction",
+            "request": "launch",
+            "mainClass": "correction",
+            "projectName": "Prg_Final_Proyect_828b7401"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - matrix",
+            "request": "launch",
+            "mainClass": "matrix",
+            "projectName": "Prg_Final_Proyect_828b7401"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - eg",
+            "request": "launch",
+            "mainClass": "eg",
+            "projectName": "Prg_Final_Proyect_828b7401"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - TicTacToe",
             "request": "launch",
             "mainClass": "TicTacToe",
