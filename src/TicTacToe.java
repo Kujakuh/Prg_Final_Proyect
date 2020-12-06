@@ -1,7 +1,3 @@
-/*
-Programming final proyect developed by Mónica Treviño Fernández and Álvaro Vos Graciá.
-This is a simple command prompt based TicTacToe with some advanced settings.
-*/
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -203,13 +199,15 @@ public class TicTacToe {
     public static int game(String player1_tag, String player1_chip, String player2_tag, String player2_chip){
 
         int replay = 1;
-        String[] game_board = {"0","0",player1_chip," ","0"," ",player1_chip,player1_chip," "};
+        String[] game_board = {"0"," ","0"," ","0"," "," "," "," "};
     
         cls();
         //game_board = populate_null_1d_array(game_board);
 
 //------------------- Testing -----------------------------------------
         print_game_board(game_board);
+
+        //String a = check_winner(game_board, player1_chip, player2_chip);
 
         game_board = place_chip(game_board, "CPU", "0", player1_chip);
 
@@ -263,36 +261,40 @@ public class TicTacToe {
 
         for (int i=0; i< board.length-1; i++){
     
-            String line = null;
+            String line = " ";
     
             switch(i) {
     
-                case 1 -> {line = board[0] + board[1] + board[2]; break;}
-                case 2 -> {line = board[3] + board[4] + board[5]; break;}
-                case 3 -> {line = board[6] + board[7] + board[8]; break;}
-                case 4 -> {line = board[0] + board[3] + board[6]; break;}
-                case 5 -> {line = board[1] + board[4] + board[7]; break;}
-                case 6 -> {line = board[2] + board[5] + board[8]; break;}
-                case 7 -> {line = board[0] + board[4] + board[8]; break;}
-                case 8 -> {line = board[6] + board[4] + board[2]; break;}
+                case 1 -> {line = board[0] + board[1] + board[2]; return check(board, line, p1_chip, p2_chip);}
+                case 2 -> {line = board[3] + board[4] + board[5]; return check(board, line, p1_chip, p2_chip);}
+                case 3 -> {line = board[6] + board[7] + board[8]; return check(board, line, p1_chip, p2_chip);}
+                case 4 -> {line = board[0] + board[3] + board[6]; return check(board, line, p1_chip, p2_chip);}
+                case 5 -> {line = board[1] + board[4] + board[7]; return check(board, line, p1_chip, p2_chip);}
+                case 6 -> {line = board[2] + board[5] + board[8]; return check(board, line, p1_chip, p2_chip);}
+                case 7 -> {line = board[0] + board[4] + board[8]; return check(board, line, p1_chip, p2_chip);}
+                case 8 -> {line = board[6] + board[4] + board[2]; return check(board, line, p1_chip, p2_chip);}
     
             }
-    
-            if (line.equals(p1_chip + p1_chip + p1_chip))
-                return p1_chip;
-
-            else if (line.equals(p2_chip + p2_chip + p2_chip))
-                return p2_chip;
-            
-            for (int j=0; j< board.length-1; j++){
-    
-                if (board[j].equals(" ")) break;
-                else if (j == board.length -1) return "draw";
-            }
-            
         }
 
-        return null;
+        return " ";
+    }
+
+    public static String check(String[] rn_board,String s_check, String p1_chip, String p2_chip){
+
+        if (s_check.equals(p1_chip + p1_chip + p1_chip))
+            return p1_chip;
+    
+        else if (s_check.equals(p2_chip + p2_chip + p2_chip))
+            return p2_chip;
+                
+        for (int j=0; j< rn_board.length; j++){
+        
+            if (rn_board[j].equals(" ")) break;
+            else if (j == rn_board.length -1) return "draw";
+            }
+
+        return " ";
     }
 
     public static String[] place_chip(String rn_board[], String tag, String chip, String enemy_chip){
@@ -305,11 +307,11 @@ public class TicTacToe {
             
             user_input = cpu_ai(board, chip, enemy_chip);
 
-            if (!board[user_input].equals(" ")) {
+            /*if (!board[user_input].equals(" ")) {
                 do{
                     user_input = random_bounded_nums(0, 9);
                 } while(!board[user_input].equals(" "));
-            }
+            }*/
 
             board[user_input] = chip;
             user_input++;
@@ -408,16 +410,15 @@ public class TicTacToe {
 
         int pos[] = cpu_move(one_to_two_dim(rn_board), enemy_chip, "0");
 
-        return pos[0]*3 + pos[1];
+        return pos[1]*3 + pos[0];
     }
 
     public static Boolean moves_left(String board[]) 
     { 
-        return true;
-        //for (int i = 0; i < board.length; i++) 
-         //   if (board[i].equals(" ")) 
-        //        return true; 
-        //return false; 
+        for (int i = 0; i < board.length; i++) 
+           if (board[i].equals(" ")) 
+                return true; 
+        return false; 
     } 
 
     public static String[][] one_to_two_dim(String a[]){
@@ -435,68 +436,25 @@ public class TicTacToe {
 
         String array[] = new String[9];
 
-        int l = 0;
         for(int i=0; i<3;i++)
             for(int j=0;j<3;j++)
-                array[l] = a[i][j];
-                l++;
+                array[(j*3) + i] = a[i][j];
         
         return array;
     }
 
-    public static int evaluate(String b[][], String player, String cpu) 
+    public static int evaluate(String b[], String player, String cpu) 
     { 
-        // Checking for Rows for player or cpu victory. 
-        for (int row = 0; row < 3; row++) 
-        { 
-            if (b[row][0].equals(b[row][1]) && 
-               b[row][1].equals(b[row][2])) 
-            { 
-                if (b[row][0].equals(player)) 
-                    return +10; 
-                else if (b[row][0].equals(cpu)) 
-                    return -10; 
-            } 
-        } 
-  
-        // Checking for Columns for player or cpu victory. 
-        for (int col = 0; col < 3; col++) 
-        { 
-            if (b[0][col].equals(b[1][col]) && 
-                b[1][col].equals(b[2][col])) 
-            { 
-                if (b[0][col].equals(player)) 
-                    return +10; 
-  
-                else if (b[0][col].equals(cpu)) 
-                    return -10; 
-            } 
-        } 
-  
-        // Checking for Diagonals for player or cpu victory. 
-        if (b[0][0].equals(b[1][1]) && b[1][1].equals(b[2][2])) 
-        { 
-            if (b[0][0].equals(player)) 
-                return +10; 
-            else if (b[0][0].equals(cpu)) 
-                return -10; 
-        } 
-  
-        if (b[0][2].equals(b[1][1]) && b[1][1].equals(b[2][0])) 
-        { 
-            if (b[0][2].equals(player)) 
-                return +10; 
-            else if (b[0][2].equals(cpu)) 
-                return -10; 
-        } 
-  
-        // Else if none of them have won then return 0 
-        return 0; 
+        String a = check_winner(b, cpu, player);
+
+        if (a.equals(cpu)) return +10;
+        else if (a.equals(player)) return -10;
+        else return 0;
     } 
 
     static int minimax(String board[][], int depth, Boolean isMax, String player, String cpu) { 
         
-        int score = evaluate(board, player, cpu); 
+        int score = evaluate(two_to_one_dim(board), player, cpu); 
   
         // If Maximizer has won the game  
         // return his/her evaluated score 
@@ -543,7 +501,7 @@ public class TicTacToe {
         } 
         else 
         { 
-            int best = 1000; 
+           int best = 1000; 
   
             // Traverse all cells 
             for (int i = 0; i < 3; i++){ 
@@ -557,7 +515,7 @@ public class TicTacToe {
   
                         // Call minimax recursively and choose 
                         // the maximum value 
-                        best = Math.max(best, minimax(board, depth + 1, !isMax, player, cpu)); 
+                        best = Math.max(best, minimax(board, depth + 1, isMax, player, cpu)); 
   
                         // Undo the move 
                         board[i][j] = " "; 
@@ -583,7 +541,7 @@ public class TicTacToe {
             for (int j = 0; j < 3; j++){ 
 
                 // Check if cell is empty 
-                if (!board[i][j].equals(player) && !board[i][j].equals(cpu)){ 
+                if (board[i][j].equals(" ")){ 
                     // Make the move 
                     board[i][j] = cpu; 
   
