@@ -203,10 +203,31 @@ public class TicTacToe {
 
         game_board = populate_null_1d_array(game_board);
 
-//------------------- Testing -----------------------------------------
-        print_game_board(game_board);
-        sleep(2000);
-//---------------------------------------------------------------------
+        cls();
+
+        System.out.println("╔═════════════════════════════════════════════════════════════╗");
+        System.out.println("║                            GAME                             ║");
+        System.out.println("╚═════════════════════════════════════════════════════════════╝\n\n");
+
+        System.out.println("Select which option do you want: \n\n (A) Play 1 vs 1 \n (B) Play vs IA\n");
+
+        char select_option;
+        Scanner selection = new Scanner(System.in);
+
+        do{
+            select_option = selection.next().charAt(0);
+		    if ((select_option!='A')&&(select_option!='a')&&(select_option!='B')&&(select_option!='b')){
+
+                System.out.println("\nThat is not a valid answer, \nTry again: ");}}
+
+        while ((select_option!='A')&&(select_option!='a')&&(select_option!='B')&&(select_option!='b'));
+		
+
+        switch (select_option){
+            case ('A' | 'a'):{}
+            case ('B' | 'b'):{}
+        }
+        
         return replay;
     }
 
