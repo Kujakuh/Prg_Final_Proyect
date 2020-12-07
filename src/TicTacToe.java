@@ -200,6 +200,7 @@ public class TicTacToe {
 
         int replay = 1;
         String[] game_board = new String[9];
+        String win_check = new String();
 
         game_board = populate_null_1d_array(game_board);
 
@@ -227,23 +228,37 @@ public class TicTacToe {
         System.out.println("╔═════════════════════════════════════════════════════════════╗");
         System.out.println("║                            GAME                             ║");
         System.out.println("╚═════════════════════════════════════════════════════════════╝\n\n");
+        int status =0;
 
-        switch (select_option){
-            case ('A' | 'a'):{
-                for(int i=0;i<4;i++){
+        //switch (select_option){
+          //  case ('A' | 'a'):{
+                do{
+
                     print_game_board(game_board);
                     game_board=place_chip(game_board,player1_tag,player1_chip,player2_chip);
-                    check_winner(game_board, player1_chip, player2_chip);
+                    win_check = check_winner(game_board, player1_chip, player2_chip);
+
+                    if (win_check.equals(player1_chip) || win_check.equals(player2_chip) || win_check.equals("draw")){
+                        status=1;
+                    }
+
                     print_game_board(game_board);
+                    if (status == 0){
                     game_board=place_chip(game_board,player2_tag,player2_chip,player1_chip);
-                    check_winner(game_board, player1_chip, player2_chip);
-                }
-                print_game_board(game_board);
-                game_board=place_chip(game_board,player1_tag,player1_chip,player2_chip);
-                check_winner(game_board, player1_chip, player2_chip);
-            }
-            case ('B' | 'b'):{}
-        }
+                    win_check = check_winner(game_board, player1_chip, player2_chip);
+
+                    if (win_check.equals(player1_chip) || win_check.equals(player2_chip) || win_check.equals("draw")){
+                        status=1;
+                    }}
+                }while (status==0);
+                if (win_check.equals(player1_chip) || win_check.equals(player2_chip)){
+                    System.out.println(win_check + " wins");
+                }else if (win_check.equals("draw")){ System.out.println("It's a draw");}
+
+                
+          //  }
+         //   case ('B' | 'b'):{}
+     //   }
         
         return replay;
     }
@@ -287,10 +302,79 @@ public class TicTacToe {
 
         return chip;
     }
+    public static String winner(String board[], String p1_chip, String p2_chip, String p1_tag, String p2_tag){
+        for (int i=1; i < 10; i++){
+        switch(i){
+            case 1 ->{
+                if(board[0].equals(p1_chip)&&board[1].equals(p1_chip)&&board[2].equals(p1_chip)){
+                    System.out.println(p1_tag + " wins"); 
+                }
+                if (board[0].equals(p2_chip)&&board[1].equals(p2_chip)&&board[2].equals(p2_chip)){
+                    System.out.println(p2_tag + " wins"); 
+                }
+                break;
+            }
+            case 2 ->{
+                if(board[3].equals(p1_chip)&&board[4].equals(p1_chip)&&board[5].equals(p1_chip)){
+                    System.out.println(p1_tag + " wins"); 
+                }
+                if (board[3].equals(p2_chip)&&board[4].equals(p2_chip)&&board[5].equals(p2_chip)){
+                    System.out.println(p2_tag + " wins"); 
+                }
+                break;
+            }
+            case 3 ->{
+                if(board[6].equals(p1_chip)&&board[7].equals(p1_chip)&&board[8].equals(p1_chip)){
+                    System.out.println(p1_tag + " wins"); 
+                }
+                if (board[6].equals(p2_chip)&&board[7].equals(p2_chip)&&board[8].equals(p2_chip)){
+                    System.out.println(p2_tag + " wins"); 
+                }
+                break;
+            }
+            case 4 ->{
+                if(board[0].equals(p1_chip)&&board[3].equals(p1_chip)&&board[6].equals(p1_chip)){
+                    System.out.println(p1_tag + " wins"); 
+                }
+                if (board[0].equals(p2_chip)&&board[3].equals(p2_chip)&&board[6].equals(p2_chip)){
+                    System.out.println(p2_tag + " wins"); 
+                }
+                break;
+            }
+            case 5 ->{
+                if(board[1].equals(p1_chip)&&board[4].equals(p1_chip)&&board[7].equals(p1_chip)){
+                    System.out.println(p1_tag + " wins"); 
+                }
+                if (board[1].equals(p2_chip)&&board[4].equals(p2_chip)&&board[7].equals(p2_chip)){
+                    System.out.println(p2_tag + " wins"); 
+                }
+                break;
+            }
+            case 6 ->{
+                if(board[2].equals(p1_chip)&&board[5].equals(p1_chip)&&board[8].equals(p1_chip)){
+                    System.out.println(p1_tag + " wins"); 
+                }
+                if (board[2].equals(p2_chip)&&board[5].equals(p2_chip)&&board[8].equals(p2_chip)){
+                    System.out.println(p2_tag + " wins"); 
+                }
+                break;
+            }
+            case 7 ->{
+                if(board[0].equals(p1_chip)&&board[4].equals(p1_chip)&&board[8].equals(p1_chip)){
+                    System.out.println(p1_tag + " wins"); 
+                }
+                if (board[0].equals(p2_chip)&&board[4].equals(p2_chip)&&board[8].equals(p2_chip)){
+                    System.out.println(p2_tag + " wins"); 
+                }
+                break;
+            }
+        }}
+        return " ";
+    } 
 
     public static String check_winner(String board[], String p1_chip, String p2_chip) {
 
-        for (int i=1; i < board.length+1; i++){
+        for (int i=1; i < 10; i++){
     
             String line = null;
     
@@ -298,28 +382,36 @@ public class TicTacToe {
     
                 case 1 ->   {line = board[0] + board[1] + board[2];
                             if(!check(board, line, p1_chip, p2_chip).equals(" ")) 
-                            return check(board, line, p1_chip, p2_chip);}
+                            return check(board, line, p1_chip, p2_chip);
+                            break;}
                 case 2 ->   {line = board[3] + board[4] + board[5];
                             if(!check(board, line, p1_chip, p2_chip).equals(" ")) 
-                            return check(board, line, p1_chip, p2_chip);}
+                            return check(board, line, p1_chip, p2_chip);
+                            break;}
                 case 3 ->   {line = board[6] + board[7] + board[8];
                             if(!check(board, line, p1_chip, p2_chip).equals(" ")) 
-                            return check(board, line, p1_chip, p2_chip);}
+                            return check(board, line, p1_chip, p2_chip);
+                            break;}
                 case 4 ->   {line = board[0] + board[3] + board[6];
                             if(!check(board, line, p1_chip, p2_chip).equals(" ")) 
-                            return check(board, line, p1_chip, p2_chip);}
+                            return check(board, line, p1_chip, p2_chip);
+                            break;}
                 case 5 ->   {line = board[1] + board[4] + board[7];
                             if(!check(board, line, p1_chip, p2_chip).equals(" ")) 
-                            return check(board, line, p1_chip, p2_chip);}
+                            return check(board, line, p1_chip, p2_chip);
+                            break;}
                 case 6 ->   {line = board[2] + board[5] + board[8];
                             if(!check(board, line, p1_chip, p2_chip).equals(" ")) 
-                            return check(board, line, p1_chip, p2_chip);}
+                            return check(board, line, p1_chip, p2_chip);
+                            break;}
                 case 7 ->   {line = board[0] + board[4] + board[8];
                             if(!check(board, line, p1_chip, p2_chip).equals(" ")) 
-                            return check(board, line, p1_chip, p2_chip);}
+                            return check(board, line, p1_chip, p2_chip);
+                            break;}
                 case 8 ->   {line = board[6] + board[4] + board[2];
                             if(!check(board, line, p1_chip, p2_chip).equals(" ")) 
-                            return check(board, line, p1_chip, p2_chip);}
+                            return check(board, line, p1_chip, p2_chip);
+                            break;}
                 default ->  {return " ";}
     
             }
@@ -344,8 +436,9 @@ public class TicTacToe {
             else if (j == rn_board.length - 1) return "draw";
             }
 
-        return " ";
-    }
+        return "";
+        
+    } 
 
     public static String[] place_chip(String rn_board[], String tag, String chip, String enemy_chip){
 
