@@ -21,7 +21,10 @@ public class TicTacToe {
 
                 case 2: settings = set_settings(settings); break;
 
-                case 3: game(settings[0], settings[1], settings[2], settings[3]); break;
+                case 3: 
+                    int replay = 1;
+                    do{replay = game(settings[0], settings[1], settings[2], settings[3]);} while(replay == 1);
+                    break;
 
                 case 4: System.exit(-1);
 
@@ -257,8 +260,9 @@ public class TicTacToe {
         else if (win_check.equals("draw")) System.out.println("It's a draw.");
 
         sleep(5000); //testing if print works
-
+        
         // ---- Ask if you wanna keep playing (using the same settings)
+        replay = 0;
 
         return replay;
     }
