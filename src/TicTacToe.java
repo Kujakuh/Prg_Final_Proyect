@@ -224,7 +224,7 @@ public class TicTacToe {
 
         // -------- Check if 1 vs Ai was selected and choose as what player you wanna play if so        
 
-        int status =0;
+        int status = 0;
 
         do{
             cls();
@@ -242,17 +242,18 @@ public class TicTacToe {
 
             print_game_board(game_board);
             if (status == 0){
-                game_board=place_chip(game_board,player2_tag,player2_chip,player1_chip);
-                win_check = check_winner(game_board, player1_chip, player2_chip);
+                game_board=place_chip(game_board,"CPU","0",player1_chip);
+                win_check = check_winner(game_board, player1_chip, "0");
 
-                if (win_check.equals(player1_chip) || win_check.equals(player2_chip) || win_check.equals("draw"))
+                if (win_check.equals(player1_chip) || win_check.equals("0") || win_check.equals("draw"))
                     status=1;
+                print_game_board(game_board);    
             }
 
         } while (status==0);
 
         if (win_check.equals(player1_chip)) System.out.println(player1_tag + " wins.");
-        else if (win_check.equals(player2_chip)) System.out.println(player2_tag + " wins.");
+        else if (win_check.equals("0")) System.out.println("CPU" + " wins.");
         else if (win_check.equals("draw")) System.out.println("It's a draw.");
 
         sleep(5000); //testing if print works
@@ -301,6 +302,7 @@ public class TicTacToe {
 
         return chip;
     }
+
    /* public static String winner(String board[], String p1_chip, String p2_chip, String p1_tag, String p2_tag){
         for (int i=1; i < 10; i++){
         switch(i){
@@ -385,45 +387,54 @@ public class TicTacToe {
                             if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
                                 return check(board, line, p1_chip, p2_chip);}
                             else break;}
+
                 case 2 ->   {line = board[3] + board[4] + board[5];
                             a = check(board, line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
                                 return check(board, line, p1_chip, p2_chip);}
                             else break;}
+
                 case 3 ->   {line = board[6] + board[7] + board[8];
                             a = check(board, line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
                                 return check(board, line, p1_chip, p2_chip);}
                             else break;}
+
                 case 4 ->   {line = board[0] + board[3] + board[6];
                             a = check(board, line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
                                 return check(board, line, p1_chip, p2_chip);}
                             else break;}
+
                 case 5 ->   {line = board[1] + board[4] + board[7];
                             a = check(board, line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
                                 return check(board, line, p1_chip, p2_chip);}
                             else break;}
+
                 case 6 ->   {line = board[2] + board[5] + board[8];
                             a = check(board, line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
                                 return check(board, line, p1_chip, p2_chip);}
                             else break;}
+
                 case 7 ->   {line = board[0] + board[4] + board[8];
                             a = check(board, line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
                                 return check(board, line, p1_chip, p2_chip);}
                             else break;}
+
                 case 8 ->   {line = board[6] + board[4] + board[2];
                             a = check(board, line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
                                 return check(board, line, p1_chip, p2_chip);}
                             else break;}
+
                 default ->  {return " ";}
     
             }
         }
+        
         return " ";
     }
 
@@ -441,10 +452,10 @@ public class TicTacToe {
         for (int j=0; j< rn_board.length; j++){
         
             if (rn_board[j].equals(" ")) break;
-            else if (j == rn_board.length - 1) return "draw";
+            else if (j == rn_board.length) return "draw";
             }
 
-        return "";
+        return " ";
         
     } 
 
@@ -467,7 +478,10 @@ public class TicTacToe {
             board[user_input] = chip.charAt(0);
             user_input++;
 
-            System.out.println("The CPU placed his chip in the following position: " + user_input);
+            System.out.println("The CPU placed his chip in the following position: " + user_input + "\n");
+            sleep(1500);
+
+            return char_to_string(board);
         } 
 
         else {
