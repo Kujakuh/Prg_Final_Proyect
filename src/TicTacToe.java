@@ -224,7 +224,14 @@ public class TicTacToe {
 		
 
         switch (select_option){
-            case ('A' | 'a'):{}
+            case ('A' | 'a'):{
+                for(int i=0;i<3;i++){
+                    print_game_board(place_chip(game_board,player1_tag,player1_chip,player2_chip));
+                    
+                    print_game_board(place_chip(game_board,player2_tag,player2_chip,player1_chip));
+                    print_game_board(place_chip(game_board,player1_tag,player1_chip,player2_chip));
+                }
+            }
             case ('B' | 'b'):{}
         }
         
