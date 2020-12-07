@@ -221,16 +221,20 @@ public class TicTacToe {
                 System.out.println("\nThat is not a valid answer, \nTry again: ");}}
 
         while ((select_option!='A')&&(select_option!='a')&&(select_option!='B')&&(select_option!='b'));
-		
+
+        cls();
+
+        System.out.println("╔═════════════════════════════════════════════════════════════╗");
+        System.out.println("║                            GAME                             ║");
+        System.out.println("╚═════════════════════════════════════════════════════════════╝\n\n");
 
         switch (select_option){
             case ('A' | 'a'):{
-                for(int i=0;i<3;i++){
+                for(int i=0;i<4;i++){
                     print_game_board(place_chip(game_board,player1_tag,player1_chip,player2_chip));
-                    
                     print_game_board(place_chip(game_board,player2_tag,player2_chip,player1_chip));
-                    print_game_board(place_chip(game_board,player1_tag,player1_chip,player2_chip));
                 }
+                print_game_board(place_chip(game_board,player1_tag,player1_chip,player2_chip));
             }
             case ('B' | 'b'):{}
         }
