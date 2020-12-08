@@ -123,8 +123,11 @@ public class TicTacToe {
     public static String[] set_settings(String rn_stg[]){
 
         String stg[] = new String[4];
+        String def[] =  {"Player X", "X", "Player O", "O"};
         String player_selec = new String();
-        int selec = 5;
+        int selec = 0;
+        
+        input.nextLine();
 
         do{
 
@@ -140,9 +143,9 @@ public class TicTacToe {
             System.out.println("       - Player 2 tag: " + rn_stg[2]);
             System.out.println("       - Player 2 chip: " + rn_stg[3] + "\n\n");
             
-            System.out.print("Choose what player settings you want to change, Player 1, Player 2 or both (enter 0 to keep the actual settings): ");
+            System.out.println("Choose what player settings you want to change,");
+            System.out.print("Player 1, Player 2 or both (Type '0' to keep the actual settings, 'D' to establish the default ones): ");
 
-            input.nextLine();
             player_selec = input.nextLine().toLowerCase();
 
             switch(player_selec){
@@ -154,19 +157,23 @@ public class TicTacToe {
                 case "both", "player 1 and 2", "player one and two", "one and two", "1 and 2", "both players" -> 
                 {selec = 3; break;}
                 case "0" -> {return rn_stg;}
+                case "d", "D" -> {return def;}
                 default -> {System.out.print("Invalid input, please try again."); sleep(1250); break;}
             
             }
 
         } while(selec != 1 && selec != 2 && selec != 3);
 
+        String used_tag = "In use tag, plese type another tag.\n";
+        String used_chip = "In use chip, plese type another chip.";
+
         switch(selec){
 
             case 1 -> {
 
                 System.out.println("\nPlayer 1: ");
-                stg[0] = get_tag();
-                stg[1] = get_chip();
+                do{stg[0] = get_tag(); if(stg[0].equals(rn_stg[2])) System.out.println(used_tag);} while (stg[0].equals(rn_stg[2]));
+                do{stg[1] = get_chip(); if(stg[1].equals(rn_stg[3])) System.out.println(used_chip);} while (stg[1].equals(rn_stg[3]));
                 stg[2] = rn_stg[2];
                 stg[3] = rn_stg[3];
                 break;
@@ -177,8 +184,8 @@ public class TicTacToe {
                 System.out.println("\nPlayer 2: ");
                 stg[0] = rn_stg[0];
                 stg[1] = rn_stg[1];
-                stg[2] = get_tag();
-                stg[3] = get_chip();
+                do{stg[2] = get_tag(); if(stg[2].equals(rn_stg[0])) System.out.println(used_tag);} while (stg[2].equals(rn_stg[0]));
+                do{stg[3] = get_chip(); if(stg[3].equals(rn_stg[1])) System.out.println(used_chip);} while (stg[3].equals(rn_stg[1]));
                 break;
             }
 
@@ -189,8 +196,8 @@ public class TicTacToe {
                 stg[1] = get_chip();
 
                 System.out.println("\nPlayer 2: ");
-                stg[2] = get_tag();
-                stg[3] = get_chip();
+                do{stg[2] = get_tag(); if(stg[2].equals(stg[0])) System.out.println(used_tag);} while (stg[2].equals(stg[0]));
+                do{stg[3] = get_chip(); if(stg[3].equals(stg[1])) System.out.println(used_chip);} while (stg[3].equals(stg[1]));
                 break;
             }
 
@@ -227,6 +234,9 @@ public class TicTacToe {
 
         // -------- Check if 1 vs Ai was selected and choose as what player you wanna play if so       
         // -------- and replace the other player sttings for the cpu ones "CPU" "0"
+
+        player2_chip = "0";
+        player2_tag = "CPU";        
 
         int status = 0;
 
@@ -272,13 +282,14 @@ public class TicTacToe {
 
         String tag = new String();
 
-        System.out.println("How you want to be named as?");
 
         do {
+            System.out.println("How you want to be named as?");
+
             tag = input.nextLine();
 
             if(tag.toUpperCase().equals("CPU")) 
-                System.out.println("CPU is a reserved name, please type another name.");
+                System.out.println("CPU is a reserved name, please type another name.\n");
 
         } while(tag.toUpperCase().equals("CPU"));    
 
@@ -292,7 +303,7 @@ public class TicTacToe {
 
         do{
 
-            System.out.print("Select a chip of the following ones: X,0,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,Y,Z,+,*,-,@,1: ");
+            System.out.print("\nSelect a chip of the following ones: X,0,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,Y,Z,+,*,-,@,1: ");
 
             chip = input.nextLine().toUpperCase();
 
@@ -388,42 +399,42 @@ public class TicTacToe {
             switch(i) {
     
                 case 1 ->   {line = board[0] + board[1] + board[2];
-                            a = check(board, line, p1_chip, p2_chip);
+                            a = check(line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 2 ->   {line = board[3] + board[4] + board[5];
-                            a = check(board, line, p1_chip, p2_chip);
+                            a = check(line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip)) return a; 
                             else break;}
 
                 case 3 ->   {line = board[6] + board[7] + board[8];
-                            a = check(board, line, p1_chip, p2_chip);
+                            a = check(line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 4 ->   {line = board[0] + board[3] + board[6];
-                            a = check(board, line, p1_chip, p2_chip);
+                            a = check(line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 5 ->   {line = board[1] + board[4] + board[7];
-                            a = check(board, line, p1_chip, p2_chip);
+                            a = check(line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 6 ->   {line = board[2] + board[5] + board[8];
-                            a = check(board, line, p1_chip, p2_chip);
+                            a = check(line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 7 ->   {line = board[0] + board[4] + board[8];
-                            a = check(board, line, p1_chip, p2_chip);
+                            a = check(line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 8 ->   {line = board[6] + board[4] + board[2];
-                            a = check(board, line, p1_chip, p2_chip);
+                            a = check(line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
@@ -441,7 +452,7 @@ public class TicTacToe {
         return " ";
     }
 
-    public static String check(String[] rn_board,String s_check, String p1_chip, String p2_chip){
+    public static String check(String s_check, String p1_chip, String p2_chip){
 
         String a = p1_chip+p1_chip+p1_chip;
         String b = p2_chip+p2_chip+p2_chip;
@@ -476,7 +487,7 @@ public class TicTacToe {
             user_input++;
 
             System.out.println("The CPU placed his chip in the following position: " + user_input + "\n");
-            sleep(1500);
+            sleep(2250);
 
             return char_to_string(board);
         } 
@@ -498,13 +509,13 @@ public class TicTacToe {
                         case 1, 2, 3, 4, 5, 6, 7, 8, 9 -> 
                         {
                             if(board[user_input-1] == ' ') {board[user_input-1] = chip.charAt(0); stage = 1;}
-                            else System.out.println("That position is already taken, please, select another position.");
+                            else System.out.print("\nThat position is already taken, please, select another position: ");
                         }
 
-                        default -> System.out.println("Invalid input, try again.");
+                        default -> System.out.print("\nInvalid input, try again: ");
                     }
 
-                } else System.out.println("Invalid input, try again.");
+                } else System.out.print("\nInvalid input, try again: ");
 
             } while(stage == 0);
 
@@ -640,53 +651,12 @@ public class TicTacToe {
 
     public static int evaluate(char b[][], char player, char cpu) 
     { 
-        
-    // Checking for Rows for X or O victory. 
-    for (int row = 0; row < 3; row++) 
-    { 
-        if (b[row][0] == b[row][1] && 
-            b[row][1] == b[row][2]) 
-        { 
-            if (b[row][0] == cpu) 
-                return +10; 
-            else if (b[row][0] == player) 
-                return -10; 
-        } 
-    } 
-  
-    // Checking for Columns for X or O victory. 
-    for (int col = 0; col < 3; col++) 
-    { 
-        if (b[0][col] == b[1][col] && 
-            b[1][col] == b[2][col]) 
-        { 
-            if (b[0][col] == cpu) 
-                return +10; 
-  
-            else if (b[0][col] == player) 
-                return -10; 
-        } 
-    } 
-  
-    // Checking for Diagonals for X or O victory. 
-    if (b[0][0] == b[1][1] && b[1][1] == b[2][2]) 
-    { 
-        if (b[0][0] == cpu) 
-            return +10; 
-        else if (b[0][0] == player) 
-            return -10; 
-    } 
-  
-    if (b[0][2] == b[1][1] && b[1][1] == b[2][0]) 
-    { 
-        if (b[0][2] == cpu) 
-            return +10; 
-        else if (b[0][2] == player) 
-            return -10; 
-    } 
-  
-    // Else if none of them have won then return 0 
-    return 0; 
+        String a[] = char_to_string(two_to_one_dim(b));
+        String l = check_winner(a, Character.toString(cpu), Character.toString(player));
+
+        if(l.equals(cpu)) return +10;
+        else if(l.equals(player)) return -10;
+        else return 0;
 
     } 
 
