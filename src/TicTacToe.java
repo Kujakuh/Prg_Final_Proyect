@@ -72,7 +72,7 @@ public class TicTacToe {
         char[][] inst_board = {
                     {'╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
                     {'║', ' ', '1', ' ', '║', ' ', '2', ' ', '║', ' ', '3', ' ', '║'},
-                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'}, //cambiar esto
+                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
                     {'║', ' ', '4', ' ', '║', ' ', '5', ' ', '║', ' ', '6', ' ', '║'},
                     {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
                     {'║', ' ', '7', ' ', '║', ' ', '8', ' ', '║', ' ', '9', ' ', '║'},
@@ -213,7 +213,7 @@ public class TicTacToe {
         System.out.println("║                            GAME                             ║");
         System.out.println("╚═════════════════════════════════════════════════════════════╝\n\n");
 
-        System.out.println("Select which option do you want: \n\n (A) Play 1 vs 1 \n (B) Play vs IA\n");
+        System.out.println("Select which gamemode do you want to play: \n\n (A) Play 1 vs 1 \n (B) Play vs IA\n");
 
         char select_option;
 
@@ -221,11 +221,12 @@ public class TicTacToe {
             select_option = input.next().charAt(0);
 		    if ((select_option!='A')&&(select_option!='a')&&(select_option!='B')&&(select_option!='b')){
 
-                System.out.println("\nThat is not a valid answer, \nTry again: ");}}
+                System.out.print("\nInvalid input. \nPlease try again: ");}}
 
         while ((select_option!='A')&&(select_option!='a')&&(select_option!='B')&&(select_option!='b'));
 
-        // -------- Check if 1 vs Ai was selected and choose as what player you wanna play if so        
+        // -------- Check if 1 vs Ai was selected and choose as what player you wanna play if so       
+        // -------- and replace the other player sttings for the cpu ones "CPU" "0"
 
         int status = 0;
 
@@ -237,7 +238,7 @@ public class TicTacToe {
             System.out.println("╚═════════════════════════════════════════════════════════════╝\n");
 
             print_game_board(game_board);
-            game_board=place_chip(game_board,player1_tag,player1_chip,player2_chip);
+            game_board = place_chip(game_board, player1_tag, player1_chip, player2_chip);
             win_check = check_winner(game_board, player1_chip, player2_chip);
 
             if (win_check.equals(player1_chip) || win_check.equals(player2_chip) || win_check.equals("draw"))
@@ -245,10 +246,10 @@ public class TicTacToe {
 
             print_game_board(game_board);
             if (status == 0){
-                game_board=place_chip(game_board,"CPU","0",player1_chip);
-                win_check = check_winner(game_board, player1_chip, "0");
+                game_board = place_chip(game_board, player2_tag, player2_chip, player1_chip);
+                win_check = check_winner(game_board, player1_chip, player2_chip);
 
-                if (win_check.equals(player1_chip) || win_check.equals("0") || win_check.equals("draw"))
+                if (win_check.equals(player1_chip) || win_check.equals(player2_chip) || win_check.equals("draw"))
                     status=1;
                 print_game_board(game_board);    
             }
@@ -256,12 +257,12 @@ public class TicTacToe {
         } while (status==0);
 
         if (win_check.equals(player1_chip)) System.out.println(player1_tag + " wins.");
-        else if (win_check.equals("0")) System.out.println("CPU" + " wins.");
+        else if (win_check.equals(player2_chip)) System.out.println(player2_tag + " wins.");
         else if (win_check.equals("draw")) System.out.println("It's a draw.");
 
-        sleep(5000); //testing if print works
+        sleep(5000); //cheking if print works
         
-        // ---- Ask if you wanna keep playing (using the same settings)
+        // ---- Ask if you wanna keep playing (using the same settings) (if so, return 1, else return 0)
         replay = 0;
 
         return replay;
@@ -388,55 +389,53 @@ public class TicTacToe {
     
                 case 1 ->   {line = board[0] + board[1] + board[2];
                             a = check(board, line, p1_chip, p2_chip);
-                            if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
-                                return check(board, line, p1_chip, p2_chip);}
+                            if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 2 ->   {line = board[3] + board[4] + board[5];
                             a = check(board, line, p1_chip, p2_chip);
-                            if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
-                                return check(board, line, p1_chip, p2_chip);}
+                            if(a.equals(p1_chip) || a.equals(p2_chip)) return a; 
                             else break;}
 
                 case 3 ->   {line = board[6] + board[7] + board[8];
                             a = check(board, line, p1_chip, p2_chip);
-                            if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
-                                return check(board, line, p1_chip, p2_chip);}
+                            if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 4 ->   {line = board[0] + board[3] + board[6];
                             a = check(board, line, p1_chip, p2_chip);
-                            if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
-                                return check(board, line, p1_chip, p2_chip);}
+                            if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 5 ->   {line = board[1] + board[4] + board[7];
                             a = check(board, line, p1_chip, p2_chip);
-                            if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
-                                return check(board, line, p1_chip, p2_chip);}
+                            if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 6 ->   {line = board[2] + board[5] + board[8];
                             a = check(board, line, p1_chip, p2_chip);
-                            if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
-                                return check(board, line, p1_chip, p2_chip);}
+                            if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 7 ->   {line = board[0] + board[4] + board[8];
                             a = check(board, line, p1_chip, p2_chip);
-                            if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
-                                return check(board, line, p1_chip, p2_chip);}
+                            if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 case 8 ->   {line = board[6] + board[4] + board[2];
                             a = check(board, line, p1_chip, p2_chip);
-                            if(a.equals(p1_chip) || a.equals(p2_chip) || a.equals("draw")){ 
-                                return check(board, line, p1_chip, p2_chip);}
+                            if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
 
                 default ->  {return " ";}
     
             }
+        }
+
+        for (int j=0; j < board.length; j++){
+        
+            if (board[j].equals(" ")) return " ";
+            else if (j == board.length - 1) return "draw";
         }
         
         return " ";
@@ -452,12 +451,6 @@ public class TicTacToe {
     
         else if (s_check.equals(b))
             return p2_chip;
-                
-        for (int j=0; j< rn_board.length; j++){
-        
-            if (rn_board[j].equals(" ")) break;
-            else if (j == rn_board.length) return "draw";
-            }
 
         return " ";
         
@@ -494,6 +487,8 @@ public class TicTacToe {
 
             do {
             
+                input.nextLine();
+
                 if (input.hasNextInt()) {
                 
                     user_input = input.nextInt();
@@ -509,7 +504,7 @@ public class TicTacToe {
                         default -> System.out.println("Invalid input, try again.");
                     }
 
-                } else { System.out.println("Invalid input, try again.");}
+                } else System.out.println("Invalid input, try again.");
 
             } while(stage == 0);
 
