@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - TicTacToe",
+            "request": "launch",
+            "mainClass": "TicTacToe",
+            "projectName": "Prg_Final_Proyect_82150e02"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - correction",
             "request": "launch",
             "mainClass": "correction",

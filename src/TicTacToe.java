@@ -232,11 +232,27 @@ public class TicTacToe {
 
         while ((select_option!='A')&&(select_option!='a')&&(select_option!='B')&&(select_option!='b'));
 
-        // -------- Check if 1 vs Ai was selected and choose as what player you wanna play if so       
-        // -------- and replace the other player sttings for the cpu ones "CPU" "0"
+        switch(select_option){
 
-        player2_chip = "0";
-        player2_tag = "CPU";        
+            case 'b', 'B' -> {
+                System.out.print("As what player you want to play? 1 or 2: ");
+                char selection;
+
+                do{
+
+                    selection = input.next().charAt(0);
+                    if (selection != '1'&& selection!='2') 
+                        System.out.print("\nInvalid input.\nTry again please: ");
+
+                } while(selection != '1'&& selection!='2');
+
+                if(selection=='1') {player2_chip = "0"; player2_tag = "CPU";}
+                else {player1_chip = "0"; player1_tag = "CPU";} 
+            }
+
+            default -> {break;}
+
+        }      
 
         int status = 0;
 
@@ -270,10 +286,22 @@ public class TicTacToe {
         else if (win_check.equals(player2_chip)) System.out.println(player2_tag + " wins.");
         else if (win_check.equals("draw")) System.out.println("It's a draw.");
 
-        sleep(5000); //cheking if print works
+        sleep(3000);
+        System.out.println("\n\n");
         
-        // ---- Ask if you wanna keep playing (using the same settings) (if so, return 1, else return 0)
-        replay = 0;
+        System.out.println("Do you want to keep playing? (You will be using the same settings)");
+        System.out.println("(If you want to change some settings, please go back to the menu)\n");
+        System.out.print("Type 1 to keep playing, 0 to go back to the menu: ");
+
+        do{
+            select_option = input.next().charAt(0);
+		    if ((select_option!='1') && (select_option!='0')){
+
+                System.out.print("\nInvalid input. \nPlease try again: ");}}
+
+        while ((select_option!='1')&&(select_option!='0'));        
+
+        replay = Character.getNumericValue(select_option);
 
         return replay;
     }
