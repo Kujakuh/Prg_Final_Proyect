@@ -11,6 +11,8 @@ public class TicTacToe {
 
         String settings[] =  {"Player X", "X", "Player O", "O"};
 
+        String[] game_output = new String[2]; // replay and winner tag
+
         while(true){
 
             int stage = menu();
@@ -22,8 +24,13 @@ public class TicTacToe {
                 case 2: settings = set_settings(settings); break;
 
                 case 3: 
-                    int replay = 1;
-                    do{replay = game(settings[0], settings[1], settings[2], settings[3]);} while(replay == 1);
+
+                    game_output[0] = "1";
+
+                    do{
+                        game_output = game(settings[0], settings[1], settings[2], settings[3]);
+                    }while(game_output[0].equals("1"));
+
                     break;
 
                 case 4: System.exit(-1);
@@ -206,9 +213,9 @@ public class TicTacToe {
         return stg;
     }
 
-    public static int game(String player1_tag, String player1_chip, String player2_tag, String player2_chip){
+    public static String[] game(String player1_tag, String player1_chip, String player2_tag, String player2_chip){
 
-        int replay = 1;
+        String[] out = new String[2];
         String[] game_board = new String[9];
         String win_check = new String();
 
@@ -282,9 +289,9 @@ public class TicTacToe {
 
         } while (status==0);
 
-        if (win_check.equals(player1_chip)) System.out.println(player1_tag + " wins.");
-        else if (win_check.equals(player2_chip)) System.out.println(player2_tag + " wins.");
-        else if (win_check.equals("draw")) System.out.println("It's a draw.");
+        if (win_check.equals(player1_chip)) {System.out.println(player1_tag + " wins."); out[1] = player1_tag;}
+        else if (win_check.equals(player2_chip)) {System.out.println(player2_tag + " wins."); out[1] = player2_tag;}
+        else if (win_check.equals("draw")) {System.out.println("It's a draw."); out[1] = "draw";}
 
         sleep(3000);
         System.out.println("\n\n");
@@ -301,9 +308,9 @@ public class TicTacToe {
 
         while ((select_option!='1')&&(select_option!='0'));        
 
-        replay = Character.getNumericValue(select_option);
+        out[0] = Character.toString(select_option);
 
-        return replay;
+        return out;
     }
 
     public static String get_tag(){
@@ -346,76 +353,6 @@ public class TicTacToe {
 
         return chip;
     }
-
-   /* public static String winner(String board[], String p1_chip, String p2_chip, String p1_tag, String p2_tag){
-        for (int i=1; i < 10; i++){
-        switch(i){
-            case 1 ->{
-                if(board[0].equals(p1_chip)&&board[1].equals(p1_chip)&&board[2].equals(p1_chip)){
-                    System.out.println(p1_tag + " wins"); 
-                }
-                if (board[0].equals(p2_chip)&&board[1].equals(p2_chip)&&board[2].equals(p2_chip)){
-                    System.out.println(p2_tag + " wins"); 
-                }
-                break;
-            }
-            case 2 ->{
-                if(board[3].equals(p1_chip)&&board[4].equals(p1_chip)&&board[5].equals(p1_chip)){
-                    System.out.println(p1_tag + " wins"); 
-                }
-                if (board[3].equals(p2_chip)&&board[4].equals(p2_chip)&&board[5].equals(p2_chip)){
-                    System.out.println(p2_tag + " wins"); 
-                }
-                break;
-            }
-            case 3 ->{
-                if(board[6].equals(p1_chip)&&board[7].equals(p1_chip)&&board[8].equals(p1_chip)){
-                    System.out.println(p1_tag + " wins"); 
-                }
-                if (board[6].equals(p2_chip)&&board[7].equals(p2_chip)&&board[8].equals(p2_chip)){
-                    System.out.println(p2_tag + " wins"); 
-                }
-                break;
-            }
-            case 4 ->{
-                if(board[0].equals(p1_chip)&&board[3].equals(p1_chip)&&board[6].equals(p1_chip)){
-                    System.out.println(p1_tag + " wins"); 
-                }
-                if (board[0].equals(p2_chip)&&board[3].equals(p2_chip)&&board[6].equals(p2_chip)){
-                    System.out.println(p2_tag + " wins"); 
-                }
-                break;
-            }
-            case 5 ->{
-                if(board[1].equals(p1_chip)&&board[4].equals(p1_chip)&&board[7].equals(p1_chip)){
-                    System.out.println(p1_tag + " wins"); 
-                }
-                if (board[1].equals(p2_chip)&&board[4].equals(p2_chip)&&board[7].equals(p2_chip)){
-                    System.out.println(p2_tag + " wins"); 
-                }
-                break;
-            }
-            case 6 ->{
-                if(board[2].equals(p1_chip)&&board[5].equals(p1_chip)&&board[8].equals(p1_chip)){
-                    System.out.println(p1_tag + " wins"); 
-                }
-                if (board[2].equals(p2_chip)&&board[5].equals(p2_chip)&&board[8].equals(p2_chip)){
-                    System.out.println(p2_tag + " wins"); 
-                }
-                break;
-            }
-            case 7 ->{
-                if(board[0].equals(p1_chip)&&board[4].equals(p1_chip)&&board[8].equals(p1_chip)){
-                    System.out.println(p1_tag + " wins"); 
-                }
-                if (board[0].equals(p2_chip)&&board[4].equals(p2_chip)&&board[8].equals(p2_chip)){
-                    System.out.println(p2_tag + " wins"); 
-                }
-                break;
-            }
-        }}
-        return " ";
-    } */
 
     public static String check_winner(String board[], String p1_chip, String p2_chip) {
 
@@ -682,8 +619,8 @@ public class TicTacToe {
         String a[] = char_to_string(two_to_one_dim(b));
         String l = check_winner(a, Character.toString(cpu), Character.toString(player));
 
-        if(l.equals(cpu)) return +10;
-        else if(l.equals(player)) return -10;
+        if(l.charAt(0) == cpu) return +10;
+        else if(l.charAt(0) == player) return -10;
         else return 0;
 
     } 
