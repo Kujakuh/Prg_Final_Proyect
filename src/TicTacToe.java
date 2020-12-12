@@ -7,6 +7,8 @@ public class TicTacToe {
 
     public static Scanner input = new Scanner(System.in);
 
+    public static ArrayList<winner> scoreboard = new ArrayList<winner>();
+
     public static class winner {
 
         private String name = null;
@@ -32,8 +34,6 @@ public class TicTacToe {
         while(true){
 
             int stage = menu();
-
-            ArrayList<winner> scoreboard = new ArrayList<winner>();
         
             switch(stage){
             
@@ -48,10 +48,9 @@ public class TicTacToe {
                     do{
 
                         game_output = game(settings[0], settings[1], settings[2], settings[3]);
+                        scoreboard = add_to_scoreboard(scoreboard, game_output[1]);
 
                     }while(game_output[0].equals("1"));
-
-                    scoreboard = add_to_scoreboard(scoreboard, game_output[1]);
 
                     break;
 
