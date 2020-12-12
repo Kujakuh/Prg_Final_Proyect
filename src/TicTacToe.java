@@ -7,6 +7,22 @@ public class TicTacToe {
 
     public static Scanner input = new Scanner(System.in);
 
+    public static class winner {
+
+        private String name = null;
+        private int score = 0;
+   
+        public winner(String name, int score) {
+
+            this.name = name;
+            this.score = score;
+        }
+
+        public void add_one_win(){
+            this.score++;
+        }
+    }
+
     public static void main(String[] args) {
 
         String settings[] =  {"Player X", "X", "Player O", "O"};
@@ -16,6 +32,8 @@ public class TicTacToe {
         while(true){
 
             int stage = menu();
+
+            ArrayList<winner> scoreboard = new ArrayList<winner>();
         
             switch(stage){
             
@@ -28,12 +46,18 @@ public class TicTacToe {
                     game_output[0] = "1";
 
                     do{
+
                         game_output = game(settings[0], settings[1], settings[2], settings[3]);
+
                     }while(game_output[0].equals("1"));
+
+                    scoreboard = add_to_scoreboard(scoreboard, game_output[1]);
 
                     break;
 
-                case 4: System.exit(-1);
+                case 4: print_scoreboard(scoreboard); break;
+
+                case 5: System.exit(-1);
 
                 default: break;
 
@@ -53,13 +77,14 @@ public class TicTacToe {
                                                      '\n' + "1 = Instructions" +
                                                      '\n' + "2 = Settings" + 
                                                      '\n' + "3 = Play" + 
-                                                     '\n' + "4 = Exit");
+                                                     '\n' + "4 = Scoreboard" + 
+                                                     '\n' + "5 = Exit");
             
             // Avoid data types errors, forbidding the user to give us a non numeric input
             if(input.hasNextInt()) option = input.nextInt(); else option = 0; 
              
             // Check user input to only use the aviable options
-            if (option != 1 && option != 2 && option != 3 && option != 4) {
+            if (option != 1 && option != 2 && option != 3 && option != 4 && option != 5) {
                 
                 input.nextLine();
                 System.out.println("Try again, invalid input");
@@ -67,9 +92,38 @@ public class TicTacToe {
                 
             }
             // Check user input to only use the aviable options
-        } while(option != 1 && option !=2 && option !=3 && option !=4);
+        } while(option != 1 && option !=2 && option !=3 && option !=4 && option != 5);
         
         return option;
+    }
+
+    public static ArrayList<winner> add_to_scoreboard(ArrayList<winner> scoreboard, String tag){
+
+        ArrayList<winner> a = scoreboard;
+        boolean is_new_tag = false;
+
+        if(a.size() != 0)
+            for(int i = 0; i < a.size(); i++){
+                if(a.get(i).name.equals(tag)){a.get(i).add_one_win(); break;}
+                else is_new_tag = true;
+            }
+        else is_new_tag = true;
+
+        if(is_new_tag == true) a.add(new winner(tag, 1));
+
+        return a;
+    }
+
+    public static void print_scoreboard(ArrayList<winner> scoreboard){
+
+        if(scoreboard.size() == 0) System.out.println("There´s no game data registered");
+        else {
+            for(int i = 0; i < scoreboard.size(); i++){
+                System.out.println(scoreboard.get(i).name + ": " + scoreboard.get(i).score + " wins.");
+            }
+        }
+        sleep(5000);
+
     }
 
     public static void instructions() {
@@ -130,7 +184,7 @@ public class TicTacToe {
     public static String[] set_settings(String rn_stg[]){
 
         String stg[] = new String[4];
-        String def[] =  {"Player X", "X", "Player O", "O"};
+        String def[] = {"Player X", "X", "Player O", "O"};
         String player_selec = new String();
         int selec = 0;
         
