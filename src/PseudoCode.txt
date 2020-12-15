@@ -84,9 +84,7 @@ Check_winner (string board[], string p1_chip, string p2_chip) {
 }
 
 To do:
-	- at game start, ask for single or multiplayer
-	- in singleplayer, ask if u wanna play as player 1 or 2 and overwritte the other one settings for cpu ones
-	- check if the players chip must be replaced, because its matching the cpu one
-	- auto set default settings
-	- single or multiplayer menu
+	- cpu and draw tags excepton in scoreboard
+	- change instructions to coords
+	- better scoreboard screen
 

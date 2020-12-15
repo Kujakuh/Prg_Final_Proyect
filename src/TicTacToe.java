@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.lang.Thread;
@@ -409,7 +408,7 @@ public class TicTacToe {
 
     public static String check_winner(String board[], String p1_chip, String p2_chip) {
 
-        for (int i=1; i < 10; i++){
+        for (int i = 1; i < 9; i++){
     
             String line = null;
             String a = new String();
@@ -455,9 +454,6 @@ public class TicTacToe {
                             a = check(line, p1_chip, p2_chip);
                             if(a.equals(p1_chip) || a.equals(p2_chip)) return a;
                             else break;}
-
-                default ->  {return " ";}
-    
             }
         }
 
@@ -472,8 +468,8 @@ public class TicTacToe {
 
     public static String check(String s_check, String p1_chip, String p2_chip){
 
-        String a = p1_chip+p1_chip+p1_chip;
-        String b = p2_chip+p2_chip+p2_chip;
+        String a = p1_chip + p1_chip + p1_chip;
+        String b = p2_chip + p2_chip + p2_chip;
 
         if (s_check.equals(a))
             return p1_chip;
@@ -488,52 +484,70 @@ public class TicTacToe {
     public static String[] place_chip(String rn_board[], String tag, String chip, String enemy_chip){
 
         char board[] = string_to_char(rn_board);
+        String user_input = new String();
+        int[] coords = new int[2];
         int stage = 0;
-        int user_input;
+        int pos;
         
         if (tag.equals("CPU")) {
             
-            user_input = cpu_ai(one_to_two_dim(board), chip, enemy_chip);
+            pos = cpu_ai(one_to_two_dim(board), chip, enemy_chip);
 
-            if (board[user_input] != ' ') {
+            if (board[pos] != ' ') {
                 do{
-                    user_input = random_bounded_nums(0, 9);
-                } while(board[user_input] != ' ');
+                    pos = random_bounded_nums(0, 9);
+                } while(board[pos] != ' ');
             }
 
-            board[user_input] = chip.charAt(0);
-            user_input++;
+            board[pos] = chip.charAt(0);
 
-            System.out.println("The CPU placed his chip in the following position: " + user_input + "\n");
-            sleep(2250);
+            int rows = 1 + pos / 3;
+            int columns = 1 + pos % 3;
+
+            System.out.println("The CPU placed his chip in the following position: (" + rows + ", " + columns + ")\n");
+            sleep(1750);
 
             return char_to_string(board);
         } 
 
         else {
 
-            System.out.print("\nIt´s your turn "+ tag +". Type where you wanna place your token (1-9): ");
-
+            System.out.print("\nIt´s your turn "+ tag +". Type where you wanna place your token.\nCoordinates must be given in the following format (row,column): ");
+            input.nextLine();
+        
             do {
-            
-                input.nextLine();
 
-                if (input.hasNextInt()) {
-                
-                    user_input = input.nextInt();
-                
-                    switch(user_input){
+                try {
 
-                        case 1, 2, 3, 4, 5, 6, 7, 8, 9 -> 
+                    user_input = input.next();
+                    String[] temp = user_input.split(",");
+
+                    coords[0] = Integer.parseInt(temp[0]) - 1;
+                    coords[1] = Integer.parseInt(temp[1]) - 1;
+                    
+                    if((coords[0] == 0 || coords[0] == 1 || coords[0] == 2) && (coords[1] == 0 || coords[1] == 1 || coords[1] == 2))
+                        pos = coords[0] * 3 + coords[1];
+                    else
+                        pos = - 1;
+
+                    switch(pos){
+
+                        case 0, 1, 2, 3, 4, 5, 6, 7, 8 -> 
                         {
-                            if(board[user_input-1] == ' ') {board[user_input-1] = chip.charAt(0); stage = 1;}
-                            else System.out.print("\nThat position is already taken, please, select another position: ");
+                            if(board[pos] == ' ') {board[pos] = chip.charAt(0); stage = 1;}
+                            else {System.out.print("\nThat position is already taken, please, select another position: "); input.nextLine();}
                         }
 
-                        default -> System.out.print("\nInvalid input, try again: ");
+                        default -> { System.out.print("\nInvalid input, try again: "); input.nextLine();}
                     }
 
-                } else System.out.print("\nInvalid input, try again: ");
+                }
+                
+                catch (java.lang.NumberFormatException | java.lang.ArrayIndexOutOfBoundsException e) { 
+                    
+                    System.out.print("\nInvalid input, try again: ");
+                    input.nextLine();
+                }
 
             } while(stage == 0);
 
@@ -607,8 +621,7 @@ public class TicTacToe {
     public static int cpu_ai(char rn_board[][], String cpu_chip, String enemy_chip){
 
         Move cpu = cpu_move(rn_board, enemy_chip.charAt(0), '0');
-        int pos[] = {cpu.row, cpu.col};
-        return pos[1]*3 + pos[0];
+        return cpu.row * 3 + cpu.col;
     }
 
     public static Boolean moves_left(char board[]) 
