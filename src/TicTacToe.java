@@ -8,6 +8,8 @@ public class TicTacToe {
 
     public static ArrayList<winner> scoreboard = new ArrayList<winner>();
 
+    public static int draw_counter = 0;
+
     public static class winner {
 
         private String name = null;
@@ -47,13 +49,14 @@ public class TicTacToe {
                     do{
 
                         game_output = game(settings[0], settings[1], settings[2], settings[3]);
-                        scoreboard = add_to_scoreboard(scoreboard, game_output[1]);
+                        if(!game_output[1].equals("draw") && !game_output[1].equals("CPU")) scoreboard = add_to_scoreboard(scoreboard, game_output[1]);
+                        else if(game_output[1].equals("draw")) draw_counter++;
 
                     }while(game_output[0].equals("1"));
 
                     break;
 
-                case 4: print_scoreboard(scoreboard); break;
+                case 4: print_scoreboard(scoreboard, draw_counter); break;
 
                 case 5: System.exit(-1);
 
@@ -112,13 +115,16 @@ public class TicTacToe {
         return a;
     }
 
-    public static void print_scoreboard(ArrayList<winner> scoreboard){
+    public static void print_scoreboard(ArrayList<winner> scoreboard, int draws){
 
-        if(scoreboard.size() == 0) System.out.println("There´s no game data registered");
+        if(scoreboard.size() == 0 && draws == 0) System.out.println("There´s no game data registered");
         else {
-            for(int i = 0; i < scoreboard.size(); i++){
-                System.out.println(scoreboard.get(i).name + ": " + scoreboard.get(i).score + " wins.");
-            }
+            System.out.println("There has been " + draws + " draws.");
+
+            if(scoreboard.size() != 0)
+                for(int i = 0; i < scoreboard.size(); i++){
+                    System.out.println(scoreboard.get(i).name + ": " + scoreboard.get(i).score + " wins.");
+                }
         }
         sleep(5000);
 
@@ -129,22 +135,24 @@ public class TicTacToe {
         int end_check = 1;
 
         char[][] inst_board = {
-                    {'╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
-                    {'║', ' ', '1', ' ', '║', ' ', '2', ' ', '║', ' ', '3', ' ', '║'},
-                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
-                    {'║', ' ', '4', ' ', '║', ' ', '5', ' ', '║', ' ', '6', ' ', '║'},
-                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
-                    {'║', ' ', '7', ' ', '║', ' ', '8', ' ', '║', ' ', '9', ' ', '║'},
-                    {'╚', '═', '═', '═', '╩', '═', '═', '═', '╩', '═', '═', '═', '╝'},};
+                    {' ',' ', ' ', ' ', ' ', '1', ' ', ' ', ' ', '2', ' ', ' ', ' ', '3', ' ', ' ', ' ', 'C'},
+                    {' ',' ', ' ', '╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗', ' ', ' '},
+                    {' ','1', ' ', '║', ' ', ' ', ' ', '║', ' ', ' ', ' ', '║', ' ', ' ', ' ', '║', ' ', ' '},
+                    {' ',' ', ' ', '╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣', ' ', ' '},
+                    {' ','2', ' ', '║', ' ', ' ', ' ', '║', ' ', ' ', ' ', '║', ' ', ' ', ' ', '║', ' ', ' '},
+                    {' ',' ', ' ', '╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣', ' ', ' '},
+                    {' ','3', ' ', '║', ' ', ' ', ' ', '║', ' ', ' ', ' ', '║', ' ', ' ', ' ', '║', ' ', ' '},
+                    {' ',' ', ' ', '╚', '═', '═', '═', '╩', '═', '═', '═', '╩', '═', '═', '═', '╝', ' ', ' '},
+                    {' ','R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},};
                     
         char[][] inst_board1 = {
-                    {'╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
-                    {'║', ' ', 'X', ' ', '║', ' ', ' ', ' ', '║', ' ', ' ', ' ', '║'},
-                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
-                    {'║', ' ', 'O', ' ', '║', ' ', 'X', ' ', '║', ' ', ' ', ' ', '║'},
-                    {'╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
-                    {'║', ' ', 'O', ' ', '║', ' ', 'O', ' ', '║', ' ', 'X', ' ', '║'},
-                    {'╚', '═', '═', '═', '╩', '═', '═', '═', '╩', '═', '═', '═', '╝'},};
+                    {' ','╔', '═', '═', '═', '╦', '═', '═', '═', '╦', '═', '═', '═', '╗'},
+                    {' ','║', ' ', 'X', ' ', '║', ' ', ' ', ' ', '║', ' ', 'O', ' ', '║'},
+                    {' ','╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
+                    {' ','║', ' ', ' ', ' ', '║', ' ', 'X', ' ', '║', ' ', 'O', ' ', '║'},
+                    {' ','╠', '═', '═', '═', '╬', '═', '═', '═', '╬', '═', '═', '═', '╣'},
+                    {' ','║', ' ', 'O', ' ', '║', ' ', ' ', ' ', '║', ' ', 'X', ' ', '║'},
+                    {' ','╚', '═', '═', '═', '╩', '═', '═', '═', '╩', '═', '═', '═', '╝'},};
 
        do{
         
@@ -160,7 +168,7 @@ public class TicTacToe {
                                "The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner." +'\n'+
                                "When all 9 squares are full, the game is over."+'\n');
 
-            System.out.println("To play you just have to say in which square you want to place your mark when your turn comes"+'\n'); 
+            System.out.println("To play you just have to say in which square you want to place your mark (row, column) when your turn comes"+'\n'); 
             System.out.println("This is an example of X's winning the game"+'\n');
             print_matrix(inst_board1);
             

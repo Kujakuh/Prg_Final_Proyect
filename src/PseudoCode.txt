@@ -84,7 +84,5 @@ Check_winner (string board[], string p1_chip, string p2_chip) {
 }
 
 To do:
-	- cpu and draw tags excepton in scoreboard
-	- change instructions to coords
 	- better scoreboard screen
 
