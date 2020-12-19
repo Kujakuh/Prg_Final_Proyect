@@ -10,6 +10,7 @@ public class TicTacToe {
 
     public static int draw_counter = 0;
 
+    // Each of the elements of the scoreboard will have an accesible tag and win counter
     public static class winner {
 
         private String name = null;
@@ -25,39 +26,87 @@ public class TicTacToe {
             this.score++;
         }
     }
+    
+    public static String[] populate_null_1d_array(String list[]){
+
+        String temp[] = new String[list.length];
+        for(int i = 0; i < temp.length; i++) temp[i] = " ";
+        return temp;
+    }
+
+    public static void print_matrix(char[][] Board){
+        
+        for(char[] row : Board){
+            for(char c : row){
+                System.out.print(c);
+            }
+            System.out.println();
+        }
+    }
+
+    public static int random_bounded_nums(int a, int b) {
+        return ThreadLocalRandom.current().nextInt(a + 1, b);
+    }
+
+    // Terminal Cleaning
+    public static void cls() {
+        //System.out.print("\033[H\033[2J");
+        //System.out.flush();
+        for(int i=0 ; i < 80 ; i++) System.out.println();
+    }
+
+    // Simplified sleep method 
+    public static void sleep(int i) {
+        try {
+            Thread.sleep(i);
+        } catch (InterruptedException e) {e.printStackTrace();}
+    }
+
 
     public static void main(String[] args) {
 
+        // String array to save the actual settings, inicializated with the default ones,
         String settings[] =  {"Player X", "X", "Player O", "O"};
 
-        String[] game_output = new String[2]; // replay and winner tag
+        String[] game_output = new String[2]; // Replay and winner tag
 
-        while(true){
+        while(true){ // Infinite loop
 
-            int stage = menu();
+            int stage = menu(); // Input missmatches are managed in the menu method
         
             switch(stage){
-            
+
+                // Instructions stage
                 case 1: instructions(); break;
 
+                // Set_settings will be returning an String array with the new settings
+                // wich will be given to the settings array.
                 case 2: settings = set_settings(settings); break;
 
+                // Game stage
                 case 3: 
 
+                    // Inicialize the replay value
                     game_output[0] = "1";
 
                     do{
 
+                        // Game execution and return of the winner player (or draw) and the replay value
                         game_output = game(settings[0], settings[1], settings[2], settings[3]);
-                        if(!game_output[1].equals("draw") && !game_output[1].equals("CPU")) scoreboard = add_to_scoreboard(scoreboard, game_output[1]);
+                        // Draw, CPU or back to menu exceptions for the scoreboard
+                        if(!game_output[1].equals("draw") && !game_output[1].equals("CPU") && !game_output[1].equals("")) 
+                            scoreboard = add_to_scoreboard(scoreboard, game_output[1]);
+                        // Draw exception management   
                         else if(game_output[1].equals("draw")) draw_counter++;
 
                     }while(game_output[0].equals("1"));
 
                     break;
 
+                // Scoreboard stage
                 case 4: print_scoreboard(scoreboard, draw_counter); break;
 
+                // Close app
                 case 5: System.exit(-1);
 
                 default: break;
@@ -103,31 +152,60 @@ public class TicTacToe {
         ArrayList<winner> a = scoreboard;
         boolean is_new_tag = false;
 
+        // Check if the scoreboard is not empty
         if(a.size() != 0)
+            // If so, check each of the elements
             for(int i = 0; i < a.size(); i++){
+                // If it finds the winner tag in the scoreboard, then adds one win
                 if(a.get(i).name.equals(tag)){a.get(i).add_one_win(); break;}
+                // Else it means, is a not registered winner tag
                 else is_new_tag = true;
             }
-        else is_new_tag = true;
+        else is_new_tag = true; // If not, the tag given is from a new winner
 
-        if(is_new_tag == true) a.add(new winner(tag, 1));
+        if(is_new_tag == true) a.add(new winner(tag, 1)); // Add him to the scoreboard if is a new winner
 
         return a;
     }
 
     public static void print_scoreboard(ArrayList<winner> scoreboard, int draws){
 
-        if(scoreboard.size() == 0 && draws == 0) System.out.println("There´s no game data registered");
-        else {
-            System.out.println("There has been " + draws + " draws.");
+        int end_check = 1;
 
+        do{
+
+            cls();
+            System.out.println("╔═════════════════════════════════════════════════════════════╗");
+            System.out.println("║                         SCOREBOARD                          ║");
+            System.out.println("╚═════════════════════════════════════════════════════════════╝\n\n");
+
+            // If the scoreboard is empty and there hasn´t been any draws,
+            // to avoid exceptions, print a warning.
+            if(scoreboard.size() == 0 && draws == 0) System.out.println("There´s no game data registered");
+
+            // If not print the actual draws
+            else System.out.println("There has been " + draws + " draws.");
+
+            // Print each of the winners and his wins,
+            // checking first if the scoreboard is empty or not
             if(scoreboard.size() != 0)
                 for(int i = 0; i < scoreboard.size(); i++){
-                    System.out.println(scoreboard.get(i).name + ": " + scoreboard.get(i).score + " wins.");
+                    System.out.println("\n " + scoreboard.get(i).name + ": " + scoreboard.get(i).score + " wins.");
                 }
-        }
-        sleep(5000);
+            
+            // Back to menu code block ----
+            System.out.print('\n'+"\n\nType 0 to go back to the menu: ");
 
+            input.nextLine();
+
+            if(input.hasNextInt()) {
+                
+                end_check = input.nextInt();
+                if(end_check != 0) { System.out.println("Invalid input, try again."); sleep(1250);}
+
+            } else { System.out.println("Invalid input, try again."); sleep(1250);}
+            // ----------------------------
+        } while(end_check != 0);
     }
 
     public static void instructions() {
@@ -172,6 +250,7 @@ public class TicTacToe {
             System.out.println("This is an example of X's winning the game"+'\n');
             print_matrix(inst_board1);
             
+            // Back to menu code block ----
             System.out.print('\n'+"Type 0 to go back to the menu: ");
 
             input.nextLine();
@@ -182,16 +261,21 @@ public class TicTacToe {
                 if(end_check != 0) { System.out.println("Invalid input, try again."); sleep(1250);}
 
             } else { System.out.println("Invalid input, try again."); sleep(1250);}
-
+            // -----------------------------
+            
         } while(end_check != 0);
     }
 
 
     public static String[] set_settings(String rn_stg[]){
 
+        // Setting array to save them and return it
         String stg[] = new String[4];
+        // Default settings
         String def[] = {"Player X", "X", "Player O", "O"};
+        // Get player selection on the options
         String player_selec = new String();
+        // Switch var
         int selec = 0;
         
         input.nextLine();
@@ -205,7 +289,7 @@ public class TicTacToe {
             System.out.println("╚═════════════════════════════════════════════════════════════╝\n\n");
 
             System.out.println("Actual settings: \n");
-            System.out.println("       - Player 1 tag: " + rn_stg[0]);
+            System.out.println("       - Player 1 tag: " + rn_stg[0]);  // Print right now settings
             System.out.println("       - Player 1 chip: " + rn_stg[1]);
             System.out.println("       - Player 2 tag: " + rn_stg[2]);
             System.out.println("       - Player 2 chip: " + rn_stg[3] + "\n\n");
@@ -223,8 +307,11 @@ public class TicTacToe {
                 {selec = 2; break;}
                 case "both", "player 1 and 2", "player one and two", "one and two", "1 and 2", "both players" -> 
                 {selec = 3; break;}
+                // Return the actual setting without changing anything
                 case "0" -> {return rn_stg;}
+                // Return the default settings
                 case "d", "D" -> {return def;}
+                // Missmatch input exception
                 default -> {System.out.print("Invalid input, please try again."); sleep(1250); break;}
             
             }
@@ -239,8 +326,11 @@ public class TicTacToe {
             case 1 -> {
 
                 System.out.println("\nPlayer 1: ");
+                // Ask player one tag and chip and save it the first 2 positions of the array
+                // It checks if wether tag or chip are being used by the other player in the right now settings
                 do{stg[0] = get_tag(); if(stg[0].equals(rn_stg[2])) System.out.println(used_tag);} while (stg[0].equals(rn_stg[2]));
                 do{stg[1] = get_chip(); if(stg[1].equals(rn_stg[3])) System.out.println(used_chip);} while (stg[1].equals(rn_stg[3]));
+                // Keep the player 2 settings
                 stg[2] = rn_stg[2];
                 stg[3] = rn_stg[3];
                 break;
@@ -249,8 +339,11 @@ public class TicTacToe {
             case 2 -> {
 
                 System.out.println("\nPlayer 2: ");
+                // Keep the player 1 settings
                 stg[0] = rn_stg[0];
                 stg[1] = rn_stg[1];
+                // Ask player one tag and chip and save it the last 2 positions of the array
+                // It checks if wether tag or chip are being used by the other player in the right now settings
                 do{stg[2] = get_tag(); if(stg[2].equals(rn_stg[0])) System.out.println(used_tag);} while (stg[2].equals(rn_stg[0]));
                 do{stg[3] = get_chip(); if(stg[3].equals(rn_stg[1])) System.out.println(used_chip);} while (stg[3].equals(rn_stg[1]));
                 break;
@@ -259,10 +352,14 @@ public class TicTacToe {
             case 3 -> {
 
                 System.out.println("\nPlayer 1: ");
+                // Ask player one tag and chip and save it the first 2 positions of the array
+                // It doesn´t check for used tags and chips because it changes both 
                 stg[0] = get_tag();
                 stg[1] = get_chip();
 
                 System.out.println("\nPlayer 2: ");
+                // Ask player one tag and chip and save it the last 2 positions of the array
+                // It checks if wether tag or chip are being used by the other player in the right now settings
                 do{stg[2] = get_tag(); if(stg[2].equals(stg[0])) System.out.println(used_tag);} while (stg[2].equals(stg[0]));
                 do{stg[3] = get_chip(); if(stg[3].equals(stg[1])) System.out.println(used_chip);} while (stg[3].equals(stg[1]));
                 break;
@@ -275,10 +372,13 @@ public class TicTacToe {
 
     public static String[] game(String player1_tag, String player1_chip, String player2_tag, String player2_chip){
 
+        // Game output [replay check, winner tag ("draw" in draws and "" when back to menu)]
         String[] out = new String[2];
         String[] game_board = new String[9];
+        // String var to check the winner, draw or to keep playing
         String win_check = new String();
 
+        // Inicialice the full board to " "
         game_board = populate_null_1d_array(game_board);
 
         cls();
@@ -287,24 +387,35 @@ public class TicTacToe {
         System.out.println("║                            GAME                             ║");
         System.out.println("╚═════════════════════════════════════════════════════════════╝\n\n");
 
-        System.out.println("Select which gamemode do you want to play: \n\n (A) Play 1 vs 1 \n (B) Play vs IA\n");
+        System.out.println("Select which gamemode do you want to play (Type 0 to go back): \n\n (A) Play 1 vs 1 \n (B) Play vs IA\n");
 
         char select_option;
 
+        // Conditional loop to avoid missmatch input exceptions
+        // Taking into account the lower and upper case
         do{
             select_option = input.next().charAt(0);
-		    if ((select_option!='A')&&(select_option!='a')&&(select_option!='B')&&(select_option!='b')){
+		    if ((select_option!='A')&&(select_option!='a')&&(select_option!='B')&&(select_option!='b')&&(select_option!='0')){
 
                 System.out.print("\nInvalid input. \nPlease try again: ");}}
 
-        while ((select_option!='A')&&(select_option!='a')&&(select_option!='B')&&(select_option!='b'));
+        while ((select_option!='A')&&(select_option!='a')&&(select_option!='B')&&(select_option!='b')&&(select_option!='0'));
 
         switch(select_option){
 
+            case '0' -> {
+
+                // Replay vaule to 0, to go back to the menu, and null winner tag
+                out[0] = "0"; out[1] = "";
+                return out;
+            }
+
             case 'b', 'B' -> {
+
                 System.out.print("As what player you want to play? 1 or 2: ");
                 char selection;
 
+                // Conditional loop to avoid missmatch input exceptions
                 do{
 
                     selection = input.next().charAt(0);
@@ -313,6 +424,7 @@ public class TicTacToe {
 
                 } while(selection != '1'&& selection!='2');
 
+                // Replace the non selected player settings to the CPU ones
                 if(selection=='1') {player2_chip = "0"; player2_tag = "CPU";}
                 else {player1_chip = "0"; player1_tag = "CPU";} 
             }
@@ -321,8 +433,9 @@ public class TicTacToe {
 
         }      
 
-        int status = 0;
+        int status = 0; // End game loop var
 
+        // --------------------------------------------- GAME LOOP -------------------------------------------------------------
         do{
             cls();
 
@@ -331,24 +444,36 @@ public class TicTacToe {
             System.out.println("╚═════════════════════════════════════════════════════════════╝\n");
 
             print_game_board(game_board);
+            // Ask player one to place his chip in the board and chek if he has won
+            // Save the board with the new chip (The one returned in the game board)
             game_board = place_chip(game_board, player1_tag, player1_chip, player2_chip);
+            // Save in win_check wether player 1 or 2 chip, "draw" or null, depending on the actual game board
             win_check = check_winner(game_board, player1_chip, player2_chip);
 
+            // If there has been wether a draw or a winner close the game loop
             if (win_check.equals(player1_chip) || win_check.equals(player2_chip) || win_check.equals("draw"))
                 status=1;
-
+    
+            // If the game loop hasn´t finished yet then    
             print_game_board(game_board);
             if (status == 0){
+                // Ask player one to place his chip in the board and chek if he has won
+                // Save the board with the new chip (The one returned in the game board)
                 game_board = place_chip(game_board, player2_tag, player2_chip, player1_chip);
+                // Save in win_check wether player 1 or 2 chip, "draw" or null, depending on the actual game board
                 win_check = check_winner(game_board, player1_chip, player2_chip);
 
+                // If there has been wether a draw or a winner close the game loop
                 if (win_check.equals(player1_chip) || win_check.equals(player2_chip) || win_check.equals("draw"))
                     status=1;
+
                 print_game_board(game_board);    
             }
 
         } while (status==0);
+        // -----------------------------------------------------------------------------------------------------------------------
 
+        // If 0 (go back to the menu) hasn´t been selected, position 1 of game output will be the winner tag or draw
         if (win_check.equals(player1_chip)) {System.out.println(player1_tag + " wins."); out[1] = player1_tag;}
         else if (win_check.equals(player2_chip)) {System.out.println(player2_tag + " wins."); out[1] = player2_tag;}
         else if (win_check.equals("draw")) {System.out.println("It's a draw."); out[1] = "draw";}
@@ -360,6 +485,7 @@ public class TicTacToe {
         System.out.println("(If you want to change some settings, please go back to the menu)\n");
         System.out.print("Type 1 to keep playing, 0 to go back to the menu: ");
 
+         // Conditional loop to avoid missmatch input exceptions
         do{
             select_option = input.next().charAt(0);
 		    if ((select_option!='1') && (select_option!='0')){
@@ -368,6 +494,7 @@ public class TicTacToe {
 
         while ((select_option!='1')&&(select_option!='0'));        
 
+        // User selection will be asserted to the replay value of game output 
         out[0] = Character.toString(select_option);
 
         return out;
@@ -376,7 +503,6 @@ public class TicTacToe {
     public static String get_tag(){
 
         String tag = new String();
-
 
         do {
             System.out.println("How you want to be named as?");
@@ -576,47 +702,6 @@ public class TicTacToe {
         System.out.println("                         ╚═══╩═══╩═══╝");
         System.out.println();
     }
-
-    public static String[] populate_null_1d_array(String list[]){
-
-        String temp[] = new String[list.length];
-        for(int i = 0; i < temp.length; i++) temp[i] = " ";
-        return temp;
-    }
-
-    public static void print_matrix(char[][] Board){
-        
-        for(char[] row : Board){
-            for(char c : row){
-                System.out.print(c);
-            }
-            System.out.println();
-        }
-    }
-
-    public static int random_bounded_nums(int a, int b) {
-        return ThreadLocalRandom.current().nextInt(a + 1, b);
-    }
-
-
-    public static boolean check_char(String[] arr, String targetValue) {
-        return Arrays.asList(arr).contains(targetValue);
-    }
-
-    // Terminal Cleaning
-    public static void cls() {
-        //System.out.print("\033[H\033[2J");
-        //System.out.flush();
-        for(int i=0 ; i < 80 ; i++) System.out.println();
-    }
-
-    // Simplified sleep method 
-    public static void sleep(int i) {
-        try {
-            Thread.sleep(i);
-        } catch (InterruptedException e) {e.printStackTrace();}
-    }
-
     //----------------------------- AI -----------------------------------------------------------------------------------------
     
     // https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
@@ -629,7 +714,7 @@ public class TicTacToe {
     public static int cpu_ai(char rn_board[][], String cpu_chip, String enemy_chip){
 
         Move cpu = cpu_move(rn_board, enemy_chip.charAt(0), '0');
-        return cpu.row * 3 + cpu.col;
+        return cpu.col * 3 + cpu.row;
     }
 
     public static Boolean moves_left(char board[]) 
