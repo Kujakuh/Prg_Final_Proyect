@@ -123,12 +123,12 @@ public class TicTacToe {
             // Terminal clear
             cls();
             
-            System.out.println(Data.ANSI_RED + "Choose an option:"+ Data.ANSI_RESET + 
-                                                     '\n' + "1 = Instructions" +
-                                                     '\n' + "2 = Settings" + 
-                                                     '\n' + "3 = Play" + 
-                                                     '\n' + "4 = Scoreboard" + 
-                                                     '\n' + "5 = Exit");
+            System.out.println("Choose an option:"+
+                                    '\n' + "1 = Instructions" +
+                                    '\n' + "2 = Settings" + 
+                                    '\n' + "3 = Play" + 
+                                    '\n' + "4 = Scoreboard" + 
+                                    '\n' + "5 = Exit");
             
             // Avoid data types errors, forbidding the user to give us a non numeric input
             if(input.hasNextInt()) option = input.nextInt(); else option = 0; 
@@ -485,7 +485,7 @@ public class TicTacToe {
         System.out.println("(If you want to change some settings, please go back to the menu)\n");
         System.out.print("Type 1 to keep playing, 0 to go back to the menu: ");
 
-         // Conditional loop to avoid missmatch input exceptions
+        // Conditional loop to avoid missmatch input exceptions
         do{
             select_option = input.next().charAt(0);
 		    if ((select_option!='1') && (select_option!='0')){
@@ -544,10 +544,11 @@ public class TicTacToe {
 
         for (int i = 1; i < 9; i++){
     
-            String line = null;
-            String a = new String();
+            String line = null; // Save the charaters in a winner line, colunm and diag
+            String a = new String(); 
     
-            switch(i) {
+            switch(i) { // Get the 3 values of a winner line, check if theres a winner in that line
+                        // If theres a winner, it returns the winner chip, if not, check the next winner line
     
                 case 1 ->   {line = board[0] + board[1] + board[2];
                             a = check(line, p1_chip, p2_chip);
@@ -591,50 +592,65 @@ public class TicTacToe {
             }
         }
 
+        // Check if theres a draw, if so, return "draw" else return " "
         for (int j=0; j < board.length; j++){
         
             if (board[j].equals(" ")) return " ";
             else if (j == board.length - 1) return "draw";
         }
         
+        // If nothing happens return " "
         return " ";
     }
 
     public static String check(String s_check, String p1_chip, String p2_chip){
 
+        // Check if the line given is equal to player 1 or 2 
+        // chips winning
         String a = p1_chip + p1_chip + p1_chip;
         String b = p2_chip + p2_chip + p2_chip;
 
+        // If so, return his chip
         if (s_check.equals(a))
             return p1_chip;
     
         else if (s_check.equals(b))
             return p2_chip;
 
+        // Else return " "
         return " ";
-        
     } 
 
     public static String[] place_chip(String rn_board[], String tag, String chip, String enemy_chip){
 
+        // Change the string array to char array to make it is to work with it
         char board[] = string_to_char(rn_board);
+        // Get user keyboard input
         String user_input = new String();
+        // Int array to save the coords given by the user
         int[] coords = new int[2];
+        // End loop var
         int stage = 0;
+        // Var to save the coords given traduced to a number from 1 to 9
         int pos;
-        
+
+        // If you are playing against the ia
         if (tag.equals("CPU")) {
             
+            // Analice board and generate the best move for the ia
             pos = cpu_ai(one_to_two_dim(board), chip, enemy_chip);
 
+            // Just to avoid errors, if that position is taken, generate a random position
             if (board[pos] != ' ') {
                 do{
                     pos = random_bounded_nums(0, 9);
                 } while(board[pos] != ' ');
             }
 
+            // Place the ia chip
             board[pos] = chip.charAt(0);
 
+            // Transform the number generated to coords and print the move done by the ia
             int rows = 1 + pos / 3;
             int columns = 1 + pos % 3;
 
@@ -644,6 +660,7 @@ public class TicTacToe {
             return char_to_string(board);
         } 
 
+        // If you playing 1 vs 1
         else {
 
             System.out.print("\nIt´s your turn "+ tag +". Type where you wanna place your token.\nCoordinates must be given in the following format (row,column): ");
@@ -651,19 +668,26 @@ public class TicTacToe {
         
             do {
 
+                // Ask the user to place the chip
                 try {
 
+                    // Get user input
                     user_input = input.next();
+                    // Delete the commas and save the coords in a temporal array
                     String[] temp = user_input.split(",");
 
+                    // Transform the coords to integer and make allow us to use it as indexes of the array
                     coords[0] = Integer.parseInt(temp[0]) - 1;
                     coords[1] = Integer.parseInt(temp[1]) - 1;
                     
+                    // If the coords are from 1 to 3 then traduce it to numbers from 1 to 9 tu use them, if not return -1 to
+                    // get to an invalid input in the following switch
                     if((coords[0] == 0 || coords[0] == 1 || coords[0] == 2) && (coords[1] == 0 || coords[1] == 1 || coords[1] == 2))
                         pos = coords[0] * 3 + coords[1];
                     else
                         pos = - 1;
 
+                    // If pos is from 0 to 8, (1 to 9) then place the chip
                     switch(pos){
 
                         case 0, 1, 2, 3, 4, 5, 6, 7, 8 -> 
@@ -672,11 +696,16 @@ public class TicTacToe {
                             else {System.out.print("\nThat position is already taken, please, select another position: "); input.nextLine();}
                         }
 
+                        // If not, send a warning and repeat the process
                         default -> { System.out.print("\nInvalid input, try again: "); input.nextLine();}
                     }
 
                 }
                 
+                // If thers is a miss match input error due to letter in the input 
+                // or a non valid transformation, generating a number out of the bounds 
+                // of the array, send a warning and try again
+
                 catch (java.lang.NumberFormatException | java.lang.ArrayIndexOutOfBoundsException e) { 
                     
                     System.out.print("\nInvalid input, try again: ");
@@ -713,12 +742,14 @@ public class TicTacToe {
 
     public static int cpu_ai(char rn_board[][], String cpu_chip, String enemy_chip){
 
+        // Get the best move in the actual game board and return it as a number from 1 to 9
         Move cpu = cpu_move(rn_board, enemy_chip.charAt(0), '0');
         return cpu.col * 3 + cpu.row;
     }
 
     public static Boolean moves_left(char board[]) 
     { 
+        // Check if its posible to make more moves
         for (int i = 0; i < board.length; i++) 
            if (board[i] == ' ') 
                 return true; 
@@ -727,12 +758,10 @@ public class TicTacToe {
 
     public static char[] string_to_char(String a[]){
 
+        // Return the string array given as a char array
         char b[] = new char[a.length];
-
         for(int i = 0; i < a.length; i++){
-
             b[i] = a[i].charAt(0);
-
         }
 
         return b;
@@ -740,12 +769,10 @@ public class TicTacToe {
 
     public static String[] char_to_string(char a[]){
 
+        // Return the char array given as a String array
         String b[] = new String[a.length];
-
         for(int i = 0; i < a.length; i++){
-
             b[i] = Character.toString(a[i]);
-
         }
 
         return b;
@@ -775,6 +802,8 @@ public class TicTacToe {
 
     public static int evaluate(char b[][], char player, char cpu) 
     { 
+        // Check if any of the players has won or theres a draw
+        // if so, return +10 in maximizer win, and -10 in minimizer win
         String a[] = char_to_string(two_to_one_dim(b));
         String l = check_winner(a, Character.toString(cpu), Character.toString(player));
 
