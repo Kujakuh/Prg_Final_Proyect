@@ -136,7 +136,8 @@ public class TicTacToe {
                         '\n' + "       | / |        ║  3 = Play          ║       | / |        " + 
                         '\n' + "       | / |        ║  4 = Scoreboard    ║       | / |        " + 
                         '\n' + "       |___|        ║  5 = Exit          ║       |___|        ");
-            System.out.println("      (_____)       ╚════════════════════╝      (_____)       ");
+            System.out.println("      (_____)       ╚════════════════════╝      (_____)     \n");
+            System.out.print("                        You selected: ");
             
             // Avoid data types errors, forbidding the user to give us a non numeric input
             if(input.hasNextInt()) option = input.nextInt(); else option = 0; 
@@ -257,6 +258,8 @@ public class TicTacToe {
             System.out.println("To play you just have to say in which square you want to place your mark (row, column) when your turn comes"+'\n'); 
             System.out.println("This is an example of X's winning the game"+'\n');
             print_matrix(inst_board1);
+
+            System.out.println('\n'+'\n'+"You can also change your name and chip in settings");
             
             // Back to menu code block ----
             System.out.print('\n'+"Type 0 to go back to the menu: ");
