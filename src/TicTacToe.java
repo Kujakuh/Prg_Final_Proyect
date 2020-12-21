@@ -485,9 +485,28 @@ public class TicTacToe {
         // -----------------------------------------------------------------------------------------------------------------------
 
         // If 0 (go back to the menu) hasn´t been selected, position 1 of game output will be the winner tag or draw
-        if (win_check.equals(player1_chip)) {System.out.println(player1_tag + " wins."); out[1] = player1_tag;}
-        else if (win_check.equals(player2_chip)) {System.out.println(player2_tag + " wins."); out[1] = player2_tag;}
-        else if (win_check.equals("draw")) {System.out.println("It's a draw."); out[1] = "draw";}
+        if (win_check.equals(player1_chip)) {
+        System.out.println("                    ┌───┐           ┌───┐   ");
+        System.out.println("                   ╔╡ ▐▐╞╝  ┌───┐  ╔╡ ▐▐╞╝  ");
+        System.out.println("                    └─╥╥┘  ╚╡▌▌ ╞╗  └─╥╥┘   ");
+        System.out.println("                      ╚╚    └╥╥─┘     ╚╚    ");
+        System.out.println("                             ╝╝           ");
+        System.out.println("          ♫♪.|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|.♫♪ " + player1_tag + " wins!!! ♫♪.|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|.♫♪"); 
+        
+        out[1] = player1_tag;}
+
+        else if (win_check.equals(player2_chip)) {
+        System.out.println("                    ┌───┐           ┌───┐   ");
+        System.out.println("                   ╔╡ ▐▐╞╝  ┌───┐  ╔╡ ▐▐╞╝  ");
+        System.out.println("                    └─╥╥┘  ╚╡▌▌ ╞╗  └─╥╥┘   ");
+        System.out.println("                      ╚╚    └╥╥─┘     ╚╚    ");
+        System.out.println("                             ╝╝           ");
+        System.out.println("          ♫♪.|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|.♫♪ " + player2_tag + " wins!!! ♫♪.|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|.♫♪"); 
+
+        out[1] = player2_tag;}
+
+        else if (win_check.equals("draw")) {
+        System.out.println("                 [̲̅̅I̲̅][̲̅T̲̅]'[̲̅̅S̲̅] [̲̅̅A̲̅] [̲̅D̲̅][̲̅̅R̲̅][̲̅̅A̲̅][̲̅̅W̲̅]."); out[1] = "draw";}
 
         sleep(3000);
         System.out.println("\n\n");
