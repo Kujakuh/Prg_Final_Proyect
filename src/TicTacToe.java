@@ -157,7 +157,7 @@ public class TicTacToe {
             // If so, check each of the elements
             for(int i = 0; i < a.size(); i++){
                 // If it finds the winner tag in the scoreboard, then adds one win
-                if(a.get(i).name.equals(tag)){a.get(i).add_one_win(); break;}
+                if(a.get(i).name.equals(tag)){a.get(i).add_one_win(); is_new_tag = false; break;}
                 // Else it means, is a not registered winner tag
                 else is_new_tag = true;
             }
@@ -914,7 +914,7 @@ public class TicTacToe {
   
                     // compute evaluation function for this 
                     // move. 
-                    int moveVal = minimax(board, 0, false, player, cpu); 
+                    int moveVal = minimax(board, 0, true, player, cpu); 
   
                     // Undo the move 
                     board[i][j] = ' '; 
