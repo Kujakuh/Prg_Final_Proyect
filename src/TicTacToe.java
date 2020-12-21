@@ -122,13 +122,21 @@ public class TicTacToe {
         do {
             // Terminal clear
             cls();
-            
-            System.out.println("Choose an option:"+
-                                    '\n' + "1 = Instructions" +
-                                    '\n' + "2 = Settings" + 
-                                    '\n' + "3 = Play" + 
-                                    '\n' + "4 = Scoreboard" + 
-                                    '\n' + "5 = Exit");
+                         
+            System.out.println("                  _ __ ___   ___ _ __  _   _ ");
+            System.out.println("                 | '_ ` _ \\ / _ \\ '_ \\| | | |");
+            System.out.println("                 | | | | | |  __/ | | | |_| |");
+            System.out.println("                 |_| |_| |_|\\___|_| |_|\\__,_|\n\n");
+
+            System.out.println("       __^__        ╔════════════════════╗       __^__             ");
+            System.out.println("      ( ___ )       ║  Choose an option  ║      ( ___ )       " +
+                        '\n' + "       | / |        ╠════════════════════╣       | / |        " +
+                        '\n' + "       | / |        ║  1 = Instructions  ║       | / |        " +
+                        '\n' + "       | / |        ║  2 = Settings      ║       | / |        " + 
+                        '\n' + "       | / |        ║  3 = Play          ║       | / |        " + 
+                        '\n' + "       | / |        ║  4 = Scoreboard    ║       | / |        " + 
+                        '\n' + "       |___|        ║  5 = Exit          ║       |___|        ");
+            System.out.println("      (_____)       ╚════════════════════╝      (_____)       ");
             
             // Avoid data types errors, forbidding the user to give us a non numeric input
             if(input.hasNextInt()) option = input.nextInt(); else option = 0; 
