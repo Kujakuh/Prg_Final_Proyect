@@ -190,16 +190,16 @@ public class TicTacToe {
 
             // If the scoreboard is empty and there hasn´t been any draws,
             // to avoid exceptions, print a warning.
-            if(scoreboard.size() == 0 && draws == 0) System.out.println("There´s no game data registered");
+            if(scoreboard.size() == 0 && draws == 0) System.out.println("		There´s no game data registered");
 
             // If not print the actual draws
-            else System.out.println("There has been " + draws + " draws.");
+            else System.out.println("		   There has been " + draws + " draws.");
 
             // Print each of the winners and his wins,
             // checking first if the scoreboard is empty or not
             if(scoreboard.size() != 0)
                 for(int i = 0; i < scoreboard.size(); i++){
-                    System.out.println("\n " + scoreboard.get(i).name + ": " + scoreboard.get(i).score + " wins.");
+                    System.out.println("\n		      " + scoreboard.get(i).name + ": " + scoreboard.get(i).score + " wins.");
                 }
             
             // Back to menu code block ----
