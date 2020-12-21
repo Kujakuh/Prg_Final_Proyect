@@ -259,7 +259,7 @@ public class TicTacToe {
             System.out.println("This is an example of X's winning the game"+'\n');
             print_matrix(inst_board1);
 
-            System.out.println('\n'+'\n'+"You can also change your name and chip in settings");
+            System.out.println("\n\nYou can also change your name and chip in settings");
             
             // Back to menu code block ----
             System.out.print('\n'+"Type 0 to go back to the menu: ");
